@@ -9,6 +9,7 @@ const LoginAdmin = () => {
   const router = useRouter();
 
   const handleLogin = (e) => {
+    
     e.preventDefault();
     // Replace these with your chosen static admin credentials
     if (email === 'admin@film6.ai' && password === '793524') {
