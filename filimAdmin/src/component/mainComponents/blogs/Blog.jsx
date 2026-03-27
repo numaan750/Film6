@@ -38,12 +38,12 @@ const Blog = () => {
         formData.append('image', image);
         console.log(image,'image');
       }
-      
+      console.log(process.env.NEXT_PUBLIC_BACKEND_URL);
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blog/blogroute`,
         formData,
         {
-          headers: { 'Content-Type': 'multipart/form-data' },
+          // headers: { 'Content-Type': 'multipart/form-data' },
         }
       );
        if (response.data.success) {
@@ -172,7 +172,8 @@ const Blog = () => {
               type='text'
               placeholder='Date'
               className='border border-black px-3 py-2 mt-2 outline-0 w-full'
-              name='Date'
+              // name='Date'
+              name='date'
               value={date}
               onChange={(e) => setDate(e.target.value)}
             />
