@@ -8,6 +8,7 @@ const blogSchema = new Schema(
     content: { type: String },
     image: { type: String },
     date: { type: String },
+    youtubeUrl: { type: String, default: '' },
   },
   { timestamps: true }
 );

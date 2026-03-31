@@ -5,7 +5,7 @@ import * as cheerio from 'cheerio';
 
 export const createBlog = async (req, res) => {
   try {
-    const { title, date, author, content: rawHtml, alt } = req.body;
+    const { title, date, author, content: rawHtml, alt, youtubeUrl} = req.body;
 
     console.log('Incoming blog post data');
     console.log('Title:', title);
@@ -75,6 +75,7 @@ export const createBlog = async (req, res) => {
       alt,
       content: cleanedHtml,
       image: coverImageUrl,
+      youtubeUrl: youtubeUrl || '',
     });
 
     console.log('Blog saved with ID:', newBlog._id);
@@ -99,7 +100,7 @@ export const createBlog = async (req, res) => {
 export const updateBlog = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, author, content: rawHtml, alt, date } = req.body;
+const { title, author, content: rawHtml, alt, date, youtubeUrl } = req.body;
     console.log(req.body, 'update data');
 
     const blogToUpdate = await blogSchema.findById(id);
@@ -138,6 +139,7 @@ export const updateBlog = async (req, res) => {
     blogToUpdate.author = author || blogToUpdate.author;
     blogToUpdate.alt = alt || blogToUpdate.alt;
     blogToUpdate.date = date || blogToUpdate.date;
+    blogToUpdate.youtubeUrl = youtubeUrl !== undefined ? youtubeUrl : blogToUpdate.youtubeUrl;
 
     const updatedBlog = await blogToUpdate.save();
 

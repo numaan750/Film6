@@ -13,7 +13,7 @@ import { motion } from 'framer-motion';
 const menuItems = [
   {
     label: 'Pages',
-    icon: <FaHome size={20} className='mr-3 text-gray-700' />,
+    icon: <FaHome size={20} className='mr-3 text-white' />,
     link: '/',
     subMenu: [
       {
@@ -60,25 +60,25 @@ const menuItems = [
   },
   {
     label: 'Menu',
-    icon: <FaShoppingCart size={20} className='mr-3 text-gray-700' />,
+    icon: <FaShoppingCart size={20} className='mr-3 text-white' />,
     link: '/menu',
     subMenu: [], // no sub-menu, so should route
   },
   {
     label: 'Blogs',
-    icon: <FaShoppingCart size={20} className='mr-3 text-gray-700' />,
+    icon: <FaShoppingCart size={20} className='mr-3 text-white' />,
     link: '/blog',
     subMenu: [], // no sub-menu, so should route
   },
   {
     label: 'Footer',
-    icon: <FaShoppingCart size={20} className='mr-3 text-gray-700' />,
+    icon: <FaShoppingCart size={20} className='mr-3 text-white' />,
     link: '/footer',
     subMenu: [], // no sub-menu, so should route
   },
   {
     label: 'Email',
-    icon: <FaShoppingCart size={20} className='mr-3 text-gray-700' />,
+    icon: <FaShoppingCart size={20} className='mr-3 text-white' />,
     link: '/email',
     subMenu: [], // no sub-menu, so should route
   },
@@ -101,18 +101,18 @@ const [showPopup, setShowPopup] = useState(false);
     <div
       className={`${
         isOpen ? 'w-56' : 'w-20'
-      } transition-width duration-300 border-r min-h-screen fixed flex flex-col bg-white`}
+      } transition-width duration-300 border-r min-h-screen fixed flex flex-col bg-black`}
     >
       {/* Sidebar Header */}
       <div className='p-4 flex items-center justify-between'>
         <h1
-          className={`text-xl font-bold transition-all duration-300 ${
+          className={`text-xl text-white font-bold transition-all duration-300 ${
             !isOpen && 'hidden'
           }`}
         >
           Dashboard
         </h1>
-        <button className='text-black cursor-pointer' onClick={toggleSidebar}>
+        <button className='text-white cursor-pointer' onClick={toggleSidebar}>
           <FaBars size={24} />
         </button>
       </div>
@@ -129,7 +129,7 @@ const [showPopup, setShowPopup] = useState(false);
               >
                 {menu.icon}
                 <span
-                  className={`text-gray-700 group-hover:text-white transition-all duration-300 ${
+                  className={`text-white group-hover:text-white transition-all duration-300 ${
                     !isOpen && 'hidden'
                   }`}
                 >
@@ -137,7 +137,7 @@ const [showPopup, setShowPopup] = useState(false);
                 </span>
                 {isOpen && (
                   <FaAngleDown
-                    className={`ml-auto transition-transform duration-300 ${
+                    className={`ml-auto text-white transition-transform duration-300 ${
                       openMenus[menu.label] ? 'rotate-180' : ''
                     }`}
                   />
@@ -149,7 +149,7 @@ const [showPopup, setShowPopup] = useState(false);
                 <div className='flex items-center px-4 py-2 hover:bg-blue-500 group cursor-pointer'>
                   {menu.icon}
                   <span
-                    className={`text-gray-700 group-hover:text-white transition-all duration-300 ${
+                    className={`text-white group-hover:text-white transition-all duration-300 ${
                       !isOpen && 'hidden'
                     }`}
                   >
@@ -163,14 +163,14 @@ const [showPopup, setShowPopup] = useState(false);
             {menu.subMenu && menu.subMenu.length > 0 && (
               <div
                 className={`ml-8 overflow-hidden transition-all duration-300 ${
-                  openMenus[menu.label] ? 'max-h-96' : 'max-h-0'
+                  openMenus[menu.label] ? 'max-h-96 text-white' : 'max-h-0'
                 }`}
               >
                 {menu.subMenu.map((sub) => (
                   <Link key={sub.label} href={sub.link}>
                     <div className='flex items-center px-4 py-2 hover:bg-blue-400 group'>
                       {sub.icon}
-                      <span className='text-gray-700 group-hover:text-white transition-all duration-300'>
+                      <span className='text-white group-hover:text-white transition-all duration-300'>
                         {sub.label}
                       </span>
                     </div>
@@ -198,7 +198,7 @@ const [showPopup, setShowPopup] = useState(false);
               </p>
               <div className='flex gap-2 justify-end mt-2'>
                 <button
-                  className='px-3 cursor-pointer py-1 text-gray-700 transition duration-300 border rounded hover:bg-gray-100'
+                  className='px-3 cursor-pointer py-1 text-black transition duration-300 border rounded hover:bg-gray-100'
                   onClick={() => setShowPopup(false)}
                 >
                   Cancel
@@ -218,7 +218,7 @@ const [showPopup, setShowPopup] = useState(false);
         )}
         <div
           onClick={() => setShowPopup(true)}
-          className='flex items-center gap-2.5  cursor-pointer px-4 py-2 hover:bg-blue-600 text-gray-700 hover:text-white  transition-all duration-300 '
+          className='flex items-center gap-2.5  cursor-pointer px-4 py-2 hover:bg-blue-600 text-white hover:text-white  transition-all duration-300 '
         >
           <MdOutlineLogin fontSize={22} />
 

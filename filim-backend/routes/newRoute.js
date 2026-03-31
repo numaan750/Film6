@@ -7,6 +7,7 @@ import {
   getNewsPage,
   updateNewsPage,
 } from '../controllers/newsController.js';
+import validateFileSize from '../middlewere/validateFileSize.js';
 
 const newRoute = express.Router();
 
@@ -19,6 +20,7 @@ newRoute.post(
       maxCount: 1,
     },
   ]),
+    validateFileSize,
   createNewsPage
 );
 
@@ -31,6 +33,7 @@ newRoute.put(
       maxCount: 1,
     },
   ]),
+    validateFileSize,
   updateNewsPage
 );
 

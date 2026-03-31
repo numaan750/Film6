@@ -1,6 +1,7 @@
 import express from 'express';
 import upload from '../middlewere/multer.js';
 import { createGetFestival, createFestivalPage, updatedFestival } from '../controllers/festivalController.js';
+import validateFileSize from '../middlewere/validateFileSize.js';
 
 const festivalRoute = express.Router();
 
@@ -37,6 +38,7 @@ festivalRoute.post(
       maxCount: 1,
     },
   ]),
+    validateFileSize,
   createFestivalPage
 );
 
@@ -54,6 +56,7 @@ festivalRoute.put(
     { name: 'competateImage', maxCount: 1 },
     { name: 'runwayImage', maxCount: 1 },
   ]),
+    validateFileSize,
   updatedFestival
 );
 

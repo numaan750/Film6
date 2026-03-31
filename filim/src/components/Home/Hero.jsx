@@ -93,7 +93,7 @@ const Hero = ({
             ))}
 
             {/* Gradient Overlay */}
-            <div className='absolute inset-0 bg-gradient-to-r from-black/50 to-black/0 z-10' />
+            <div className='absolute inset-0 bg-gradient-to-r from-black/20 to-black/0 z-10' />
 
             {/* Custom Arrows */}
             {arrowLeft && (

@@ -1,5 +1,6 @@
-'use client';
-import React from 'react';
+"use client";
+import { validateFile } from "@/utils/fileValidation";
+import React from "react";
 
 const Competate3 = ({
   competate3,
@@ -13,90 +14,100 @@ const Competate3 = ({
     setCompetate3((data) => ({ ...data, [name]: value }));
   };
 
-  console.log(competate3, 'competate3');
+  console.log(competate3, "competate3");
   return (
     <div>
-      <div className='p-4 border mt-12'>
-        <h1 className='mt-4 mb-12 text-center text-3xl font-semibold'>
+      <div className="p-4 border mt-12">
+        <h1 className="mt-4 mb-12 text-center text-3xl font-semibold">
           SECTION 7
         </h1>
         <form>
           {/* File Upload Section */}
-          <div className='rounded-md border border-indigo-500 bg-gray-50 p-4 shadow-md w-36'>
+          <div className="rounded-md border border-indigo-500 bg-gray-50 p-4 shadow-md w-36">
             <label
-              htmlFor='upload16'
-              className='flex flex-col items-center gap-2 cursor-pointer'
+              htmlFor="upload16"
+              className="flex flex-col items-center gap-2 cursor-pointer"
             >
               <svg
-                xmlns='http://www.w3.org/2000/svg'
-                className='h-10 w-10 fill-white stroke-indigo-500'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-                strokeWidth='2'
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-10 w-10 fill-white stroke-indigo-500"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
               >
                 <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                 />
               </svg>
-              <span className='text-gray-600 font-medium'>Upload file</span>
+              <span className="text-gray-600 font-medium">Upload file</span>
+              <span className="text-xs text-gray-600">Max Size:5MB</span>
             </label>
             <input
-              onChange={(e) => setCompetateImage3(e.target.files[0])}
-              id='upload16'
-              type='file'
-              accept='image/*,video/*'
-              className='hidden'
+              // onChange={(e) => setCompetateImage3(e.target.files[0])}
+              onChange={(e) => {
+                const file = e.target.files[0];
+                const result = validateFile(file);
+                if (!result.valid) {
+                  alert(result.message);
+                  return;
+                }
+                setCompetateImage3(file);
+              }}
+              id="upload16"
+              type="file"
+              accept="image/*,video/*"
+              className="hidden"
             />
           </div>
           {/* Image Preview */}
           {competateImage3 && (
-            <div className='mt-4'>
+            <div className="mt-4">
               <img
                 src={
-                  typeof competateImage3 === 'string'
+                  typeof competateImage3 === "string"
                     ? competateImage3
                     : URL.createObjectURL(competateImage3)
                 }
-                alt='Preview'
-                className='w-36 h-auto'
+                alt="Preview"
+                className="w-36 h-auto"
               />
             </div>
           )}
 
           {/* Text Input Fields */}
-          <div className='mt-8'>
-            <div className='mb-4'>
-              <h1 className='text-black'>ALT TEXT</h1>
+          <div className="mt-8">
+            <div className="mb-4">
+              <h1 className="text-black">ALT TEXT</h1>
               <input
-                type='text'
-                placeholder='Alt Text'
-                className='border border-black px-3 py-2 mt-2 outline-0'
+                type="text"
+                placeholder="Alt Text"
+                className="border border-black px-3 py-2 mt-2 outline-0"
                 value={competate3.alt}
                 onChange={onChangeHandler}
-                name='alt'
+                name="alt"
               />
             </div>
-            <div className='mb-4'>
-              <h1 className='text-black'>TITLE</h1>
+            <div className="mb-4">
+              <h1 className="text-black">TITLE</h1>
               <input
-                type='text'
-                placeholder='Title'
-                className='border border-black px-3 py-2 mt-2 outline-0 w-full'
+                type="text"
+                placeholder="Title"
+                className="border border-black px-3 py-2 mt-2 outline-0 w-full"
                 value={competate3.title}
                 onChange={onChangeHandler}
-                name='title'
+                name="title"
               />
             </div>
-            <div className='mb-4 mt-4'>
-              <h1 className='text-black'>GENRE</h1>
+            <div className="mb-4 mt-4">
+              <h1 className="text-black">GENRE</h1>
               <input
-                placeholder='genre'
-                className='border border-black px-3 py-2 mt-2 outline-0 w-full'
+                placeholder="genre"
+                className="border border-black px-3 py-2 mt-2 outline-0 w-full"
                 value={competate3.genre}
                 onChange={onChangeHandler}
-                name='genre'
+                name="genre"
               />
             </div>
             {/* <div className='mb-4 mt-4'>
@@ -109,46 +120,46 @@ const Competate3 = ({
                 name='line'
               />
             </div> */}
-            <div className='mb-4 mt-4'>
-              <h1 className='text-black'>DESCRIPTION</h1>
+            <div className="mb-4 mt-4">
+              <h1 className="text-black">DESCRIPTION</h1>
               <textarea
-                placeholder='Description'
-                className='border border-black px-3 py-2 mt-2 outline-0 w-full'
+                placeholder="Description"
+                className="border border-black px-3 py-2 mt-2 outline-0 w-full"
                 value={competate3.description}
                 onChange={onChangeHandler}
-                name='description'
+                name="description"
               />
             </div>
-            <div className='mb-4 mt-4'>
-              <h1 className='text-black'>DESCRIPTION TWO</h1>
+            <div className="mb-4 mt-4">
+              <h1 className="text-black">DESCRIPTION TWO</h1>
               <textarea
-                placeholder='Description Two'
-                className='border border-black px-3 py-2 mt-2 outline-0 w-full'
+                placeholder="Description Two"
+                className="border border-black px-3 py-2 mt-2 outline-0 w-full"
                 value={competate3.description2}
                 onChange={onChangeHandler}
-                name='description2'
+                name="description2"
               />
             </div>
-            <div className='mb-4'>
-              <h1 className='text-black'>BUTTON</h1>
+            <div className="mb-4">
+              <h1 className="text-black">BUTTON</h1>
               <input
-                type='text'
-                placeholder='Button'
-                className='border border-black px-3 py-2 mt-2 outline-0'
+                type="text"
+                placeholder="Button"
+                className="border border-black px-3 py-2 mt-2 outline-0"
                 value={competate3.button}
                 onChange={onChangeHandler}
-                name='button'
+                name="button"
               />
             </div>
-            <div className='mb-4'>
-              <h1 className='text-black'>LINK URL</h1>
+            <div className="mb-4">
+              <h1 className="text-black">LINK URL</h1>
               <input
-                type='text'
-                placeholder='link url'
-                className='border border-black px-3 py-2 mt-2 outline-0'
+                type="text"
+                placeholder="link url"
+                className="border border-black px-3 py-2 mt-2 outline-0"
                 value={competate3.link}
                 onChange={onChangeHandler}
-                name='link'
+                name="link"
               />
             </div>
           </div>

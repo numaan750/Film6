@@ -5,6 +5,7 @@ import {
   createGetContact,
   updateContactPage,
 } from '../controllers/contactController.js';
+import validateFileSize from '../middlewere/validateFileSize.js';
 
 const contactRoute = express.Router();
 
@@ -12,11 +13,13 @@ contactRoute.get('/getcontact', createGetContact);
 contactRoute.post(
   '/contatcRoute',
   upload.fields([{ name: 'heroImage', maxCount: 1 }]),
+    validateFileSize,
   createContactPage
 );
 contactRoute.put(
   '/updateContact/:id',
   upload.fields([{ name: 'heroImage', maxCount: 1 }]),
+    validateFileSize,
   updateContactPage
 );
 

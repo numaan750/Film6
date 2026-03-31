@@ -1,6 +1,7 @@
 import express from 'express';
 import upload from '../middlewere/multer.js';
 import { createGetService, createServicePage, updateServicePage } from '../controllers/serviceController.js';
+import validateFileSize from '../middlewere/validateFileSize.js';
 
 
 const serviceRoute = express.Router();
@@ -16,6 +17,7 @@ serviceRoute.put(
     { name: 'competateImage', maxCount: 1 },
     { name: 'runwayImage', maxCount: 1 },
   ]),
+    validateFileSize,
   updateServicePage
 );
 
@@ -47,6 +49,7 @@ serviceRoute.post(
       maxCount: 1,
     },
   ]),
+    validateFileSize,
   createServicePage
 );
 

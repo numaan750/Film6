@@ -1,6 +1,7 @@
 import express from 'express';
 import upload from '../middlewere/multer.js';
 import { createBlog, deleteBlog, getBlogs, updateBlog } from '../controllers/blogController.js';
+import validateFileSize from '../middlewere/validateFileSize.js';
 
 const blogRoute = express.Router();
 
@@ -15,6 +16,7 @@ blogRoute.post(
       maxCount: 1,
     },
   ]),
+    validateFileSize,
   createBlog
 );
 
@@ -26,6 +28,7 @@ blogRoute.put(
       maxCount: 1,
     },
   ]),
+    validateFileSize,
   updateBlog
 );
 export default blogRoute;

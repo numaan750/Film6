@@ -206,7 +206,7 @@ const Footer = () => {
         <p className='text-sm text-center'>© 2025 Film6</p>
       </div>
       {/* Toast container to show notifications */}
-      <ToastContainer />
+<ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

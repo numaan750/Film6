@@ -7,6 +7,7 @@ import {
   createStudioPage,
   updateStudioPage,
 } from '../controllers/studioController.js';
+import validateFileSize from '../middlewere/validateFileSize.js';
 
 const studioRoute = express.Router();
 
@@ -28,6 +29,7 @@ studioRoute.post(
     { name: 'competateImage3', maxCount: 1 },
     { name: 'toplistImage3', maxCount: 1 },
   ]),
+    validateFileSize,
   createStudioPage
 );
 
@@ -49,6 +51,7 @@ studioRoute.put(
     { name: 'competateImage3', maxCount: 1 },
     { name: 'toplistImage3', maxCount: 1 },
   ]),
+    validateFileSize,
   updateStudioPage
 );
 

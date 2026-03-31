@@ -1,46 +1,83 @@
 'use client';
 
-import CookieConsent from 'react-cookie-consent';
+import { useState, useEffect } from 'react';
 
 const Cookies = () => {
-  const handleAccept = () => {
-    console.log('✅ Cookies Accepted');
+  const [visible, setVisible] = useState(false);
 
+  useEffect(() => {
+    const consent = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith('mySiteCookieConsent='));
+    if (!consent) setVisible(true);
+  }, []);
+
+  useEffect(() => {
+    if (visible) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [visible]);
+
+  const setCookie = (value) => {
+    const expires = new Date();
+    expires.setDate(expires.getDate() + 150);
+    document.cookie = `mySiteCookieConsent=${value}; expires=${expires.toUTCString()}; path=/`;
+  };
+
+  const handleAccept = () => {
+    setCookie('true');
+    setVisible(false);
     if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
       window.gtag('consent', 'update', {
         ad_storage: 'granted',
         analytics_storage: 'granted',
       });
-      console.log('Consent sent to gtag ✅');
-    } else {
-      console.log('⚠️ gtag is not loaded yet.');
     }
   };
 
   const handleDecline = () => {
-    console.log('❌ Cookies Declined');
+    setCookie('false');
+    setVisible(false);
   };
 
+  if (!visible) return null;
+
   return (
-    <CookieConsent
-      location='bottom'
-      buttonText='Accept'
-      declineButtonText='Decline'
-      cookieName='mySiteCookieConsent'
-      enableDeclineButton
-      onAccept={handleAccept}
-      onDecline={handleDecline}
-      expires={150}
-      containerClasses='fixed bottom-0 left-0 right-0 bg-gray-900 text-white px-1 z-[9999] flex  sm:flex-row items-start sm:items-center justify-between sm:gap-2'
-      contentClasses='text-xs sm:text-sm m-0 p-0'
-      buttonClasses='m-1 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold rounded-md transition duration-200'
-      declineButtonClasses='bg-gray-700 hover:bg-gray-600 text-white text-xs sm:text-sm font-semibold rounded-md transition duration-200 sm:ml-2'
-    >
-      <p className='text-start m-0 p-0 text-xs sm:text-sm md:text-base font-sans'>
-        We use cookies to improve your experience, analyze site traffic, and
-        personalize content. You can accept or decline.
-      </p>
-    </CookieConsent>
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/75 px-4">
+      <div
+        role="dialog"
+        aria-label="Cookie consent"
+        aria-modal="true"
+        className="w-full max-w-md border-[0.5px] border-white/50 bg-black px-8 py-9 text-center rounded-sm animate-[fadeIn_0.25s_ease-out]"
+      >
+        <p className="mb-3 font-mono text-[14px] font-bold uppercase tracking-widest text-white">
+          Cookie Notice
+        </p>
+        <p className="mb-7 text-sm leading-relaxed text-neutral-400">
+          We use cookies to improve your experience, analyze site traffic, and
+          personalize content.
+        </p>
+        <div className="flex items-center justify-center gap-2.5">
+          <button
+            onClick={handleDecline}
+            className="cursor-pointer rounded-sm border border-white px-5 py-2.5 font-mono text-[11px] uppercase tracking-wider text-white transition-colors "
+          >
+            Decline
+          </button>
+          <button
+            onClick={handleAccept}
+            className="cursor-pointer rounded-sm border border-white bg-white px-5 py-2.5 font-mono text-[11px] uppercase tracking-wider text-black transition-colors hover:bg-neutral-200 hover:border-neutral-200"
+          >
+            Accept
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 

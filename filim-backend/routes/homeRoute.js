@@ -1,6 +1,7 @@
 import express from 'express';
 import { createGetHome, createHomePage, updateHomePage } from '../controllers/homeController.js';
 import upload from '../middlewere/multer.js';
+import validateFileSize from '../middlewere/validateFileSize.js';
 
 
 const homeRouter = express.Router();
@@ -38,6 +39,7 @@ homeRouter.post(
       maxCount: 1,
     },
   ]),
+  validateFileSize,
   createHomePage
 );
 
@@ -73,7 +75,8 @@ homeRouter.put(
       maxCount: 1,
     },
   ]),
-  updateHomePage
+  validateFileSize,
+  updateHomePage,
 );
 
 export default homeRouter;

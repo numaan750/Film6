@@ -60,7 +60,7 @@ const TopListing = ({
         whileInView={{ x: 0, opacity: 1 }}
         transition={{ duration: 1, ease: 'easeOut' }}
         viewport={{ once: true, amount: 0.3 }}
-        className={`max-md:mt-24 ${
+        className={`max-md:mt-24 mb-24 ${
           order === 'reverse'
             ? 'md:order-1 px-4 sm:px-6 md:px-20 '
             : 'px-4 sm:px-6 md:pr-24 '

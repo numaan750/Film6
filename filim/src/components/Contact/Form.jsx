@@ -4,6 +4,10 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
+const MAX_CHARS = 1000;
+
+
 const Form = () => {
   // Initialize form state with default values.
   const [formData, setFormData] = useState({
@@ -16,10 +20,12 @@ const Form = () => {
   });
 
   // Handle input changes for all form fields.
-  const handleChange = (e) => {
+    const handleChange = (e) => {
     const { id, value } = e.target;
+    if (id === 'message' && value.length > MAX_CHARS) return;
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,6 +33,11 @@ const Form = () => {
     const { firstName, lastName, email, topic, message } = formData;
     if (!firstName || !lastName || !email || !topic || !message) {
       toast.error('Please fill all the required fields.');
+      return;
+    }
+
+    if (message.length > MAX_CHARS) {
+      toast.error(`Message cannot exceed ${MAX_CHARS} characters.`);
       return;
     }
 
@@ -129,6 +140,7 @@ const Form = () => {
           </div>
 
           {/* Message */}
+          {/* PURANA div hatao, YE NAYA likho: */}
           <div className='mt-4'>
             <textarea
               id='message'
@@ -136,8 +148,19 @@ const Form = () => {
               placeholder='Your message...'
               value={formData.message}
               onChange={handleChange}
+              maxLength={MAX_CHARS}
               className='w-full rounded-md border border-gray-300 px-3 py-4 focus:outline-none focus:ring-2 focus:ring-blue-300'
             />
+            <div className='flex justify-between mt-1'>
+              <span className='text-xs text-gray-400'>Max {MAX_CHARS} characters</span>
+              <span className={`text-xs font-medium ${
+                formData.message.length > MAX_CHARS * 0.9
+                  ? 'text-red-500'
+                  : 'text-gray-400'
+              }`}>
+                {formData.message.length}/{MAX_CHARS}
+              </span>
+            </div>
           </div>
 
           {/* Submit Button */}

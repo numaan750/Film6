@@ -19,8 +19,8 @@ const FormSchema = new mongoose.Schema({
       'token',
     ],
   },
-  message: { type: String, required: true },
-});
+message: { type: String, required: true, maxlength: [1000, 'Message cannot exceed 1000 characters'] },
+}, { timestamps: true });
 
 const formSchema = mongoose.models.Form || mongoose.model('Form', FormSchema);
 export default formSchema;
