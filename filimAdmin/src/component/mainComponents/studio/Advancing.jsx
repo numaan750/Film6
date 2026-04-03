@@ -1,65 +1,71 @@
+"use client";
 
-'use client';
+import React from "react";
 
-import React from 'react';
+const Advancing = ({ advance, setAdvance }) => {
+  const onChangeHandler = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setAdvance((data) => ({ ...data, [name]: value }));
+  };
 
-const Advancing = ({advance,setAdvance}) => {
- 
-const onChangeHandler = (event) => {
-  const name = event.target.name;
-  const value = event.target.value;
-  setAdvance((data) => ({ ...data, [name]: value }));
-};
-  
   return (
     <div>
-      <div className=' mt-12 p-4 border'>
-        {' '}
-        <h1 className='mt-4 mb-12 text-center text-3xl font-semibold'>
-           SECTION 1
+      <div className=" mt-12 p-4 border">
+        {" "}
+        <h1 className="mt-4 mb-12 text-center text-3xl font-semibold">
+          SECTION 1
         </h1>
         <form>
-          
           {/* Text Input Fields */}
-          <div className='mt-8'>
-            <div className='mb-4'>
-              <h1 className='text-black'>TITLE</h1>
+          <div className="mt-8">
+            <div className="mb-4">
+              <h1 className="text-black">TITLE</h1>
               <input
-                type='text'
-                placeholder='Title'
-                className='border border-black px-3 py-2 mt-2 outline-0 w-full'
+                type="text"
+                placeholder="Title"
+                className="border border-black px-3 py-2 mt-2 outline-0 w-full"
                 value={advance.title}
                 onChange={onChangeHandler}
-                name='title'
+                name="title"
               />
             </div>
-            <div className='mb-4'>
-              <h1 className='text-black'>TITLE TWO</h1>
+            <div className="mb-4">
+              <h1 className="text-black">TITLE TWO</h1>
               <input
-                type='text'
-                placeholder='Title'
-                className='border border-black px-3 py-2 mt-2 outline-0 w-full'
+                type="text"
+                placeholder="Title"
+                className="border border-black px-3 py-2 mt-2 outline-0 w-full"
                 value={advance.title2}
                 onChange={onChangeHandler}
-                name='title2'
+                name="title2"
               />
             </div>
-            <div className='mb-4 mt-4'>
-              <h1 className='text-black'>DESCRIPTION</h1>
+            <div className="mb-4 mt-4">
+              <h1 className="text-black">DESCRIPTION</h1>
               <textarea
-                placeholder='Description'
-                className='border border-black px-3 py-2 mt-2 outline-0 w-full'
+                placeholder="Description"
+                className="border border-black px-3 py-2 mt-2 outline-0 w-full"
                 value={advance.description}
-                onChange={onChangeHandler}
-                name='description'
+                onChange={(e) => {
+                  const words =
+                    e.target.value.trim() === ""
+                      ? []
+                      : e.target.value.trim().split(/\s+/);
+                  if (words.length <= 60) onChangeHandler(e);
+                }}
+                name="description"
               />
+              <p className="text-sm text-gray-500 mt-1">
+                {advance.description?.trim() === ""
+                  ? 0
+                  : advance.description?.trim().split(/\s+/).length || 0}
+                /60 words
+              </p>
             </div>
-
           </div>
         </form>
       </div>
-      
-     
     </div>
   );
 };

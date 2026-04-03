@@ -122,9 +122,21 @@ const TopListing = ({ toplist, setToplist, toplistImage, setToplistImage }) => {
                 placeholder="Description"
                 className="border border-black px-3 py-2 mt-2 outline-0 w-full"
                 value={toplist.description}
-                onChange={onChangeHandler}
+                onChange={(e) => {
+                  const words =
+                    e.target.value.trim() === ""
+                      ? []
+                      : e.target.value.trim().split(/\s+/);
+                  if (words.length <= 60) onChangeHandler(e);
+                }}
                 name="description"
               />
+              <p className="text-sm text-gray-500 mt-1">
+                {toplist.description?.trim() === ""
+                  ? 0
+                  : toplist.description?.trim().split(/\s+/).length || 0}
+                /60 words
+              </p>
             </div>
             <div className="mb-4 mt-4">
               <h1 className="text-black">DESCRIPTION TWO</h1>
@@ -132,9 +144,21 @@ const TopListing = ({ toplist, setToplist, toplistImage, setToplistImage }) => {
                 placeholder="Description Two"
                 className="border border-black px-3 py-2 mt-2 outline-0 w-full"
                 value={toplist.description2}
-                onChange={onChangeHandler}
+                onChange={(e) => {
+                  const words =
+                    e.target.value.trim() === ""
+                      ? []
+                      : e.target.value.trim().split(/\s+/);
+                  if (words.length <= 60) onChangeHandler(e);
+                }}
                 name="description2"
               />
+              <p className="text-sm text-gray-500 mt-1">
+                {toplist.description2?.trim() === ""
+                  ? 0
+                  : toplist.description2?.trim().split(/\s+/).length || 0}
+                /60 words
+              </p>
             </div>
             <div className="mb-4">
               <h1 className="text-black">BUTTON</h1>
