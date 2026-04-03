@@ -18,7 +18,7 @@ const Hero = () => {
   const [studioId, setStudioId] = useState(null);
   const [alt, setAlt] = useState("");
   const [title, setTitle] = useState("");
-  const [image, setImage] = useState();
+  const [image, setImage] = useState([]);
   const [loading, setLoading] = useState(false);
   console.log(image);
 
@@ -31,11 +31,11 @@ const Hero = () => {
     mainTitle: "",
     description: "",
   });
-  const [card2, setCard2] = useState("");
-  const [card3, setCard3] = useState("");
-  const [card4, setCard4] = useState("");
-  const [card5, setCard5] = useState("");
-  const [card6, setCard6] = useState("");
+  const [card2, setCard2] = useState({ description: "" });
+  const [card3, setCard3] = useState({ description: "" });
+  const [card4, setCard4] = useState({ description: "" });
+  const [card5, setCard5] = useState({ description: "" });
+  const [card6, setCard6] = useState({ description: "" });
   const [card1Image, setCard1Image] = useState(false);
   const [card2Image, setCard2Image] = useState(false);
   const [card3Image, setCard3Image] = useState(false);
@@ -137,26 +137,20 @@ const Hero = () => {
             setCard1(homeData.card1);
             setCard1Image(homeData.card1.catogryImage);
           }
-          if (homeData.card2) {
-            setCard2(homeData.card2);
-            setCard2Image(homeData.card2.catogryImage);
-          }
-          if (homeData.card3) {
-            setCard3(homeData.card3);
-            setCard3Image(homeData.card3.catogryImage);
-          }
-          if (homeData.card4) {
-            setCard4(homeData.card4);
-            setCard4Image(homeData.card4.catogryImage);
-          }
-          if (homeData.card5) {
-            setCard5(homeData.card5);
-            setCard5Image(homeData.card5.catogryImage);
-          }
-          if (homeData.card6) {
-            setCard6(homeData.card6);
-            setCard6Image(homeData.card6.catogryImage);
-          }
+          setCard2(homeData.card2 || { description: "" });
+          setCard2Image(homeData.card2?.catogryImage || false);
+
+          setCard3(homeData.card3 || { description: "" });
+          setCard3Image(homeData.card3?.catogryImage || false);
+
+          setCard4(homeData.card4 || { description: "" });
+          setCard4Image(homeData.card4?.catogryImage || false);
+
+          setCard5(homeData.card5 || { description: "" });
+          setCard5Image(homeData.card5?.catogryImage || false);
+
+          setCard6(homeData.card6 || { description: "" });
+          setCard6Image(homeData.card6?.catogryImage || false);
           if (homeData.toplist) {
             setToplist(homeData.toplist);
             setToplistImage(homeData.toplist.bgImage || null);
@@ -196,11 +190,11 @@ const Hero = () => {
     try {
       const formData = new FormData();
       const heroData = { title, alt, description };
-      const card2Data = { description: card2.description };
-      const card3Data = { description: card3.description };
-      const card4Data = { description: card4.description };
-      const card5Data = { description: card5.description };
-      const card6Data = { description: card6.description };
+      const card2Data = { description: card2?.description || "" };
+      const card3Data = { description: card3?.description || "" };
+      const card4Data = { description: card4?.description || "" };
+      const card5Data = { description: card5?.description || "" };
+      const card6Data = { description: card6?.description || "" };
       formData.append("card1", JSON.stringify(card1));
       formData.append("card2", JSON.stringify(card2Data));
       formData.append("card3", JSON.stringify(card3Data));

@@ -35,7 +35,7 @@ const NewCards = ({
   const onChangeHandler2 = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    setCard2((data) => ({ ...data, [name]: value }));
+    setCard2((data = { description: "" }) => ({ ...data, [name]: value }));
   };
   const onChangeHandler3 = (event) => {
     const name = event.target.name;
@@ -210,7 +210,7 @@ const NewCards = ({
                 type="text"
                 placeholder="Alt Text"
                 className="border border-black px-3 py-2 mt-2 outline-0 w-full"
-                value={card2.description}
+                value={card2?.description || ""}
                 onChange={onChangeHandler2}
                 name="description"
               />
