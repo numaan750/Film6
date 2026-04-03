@@ -1,22 +1,43 @@
-import { uploadOnCloudinary } from '../utils/cloudinary.js';
-import studioSchema from '../modles/studio.js';
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import studioSchema from "../modles/studio.js";
 export const createStudioPage = async (req, res) => {
   try {
-    const { hero, advance,card1,card2,card3,card4,card5,card6, toplist, toplist2, competate, competate2,toplist3,competate3 } =
-      req.body;
-    console.log(req.body, 'REQ.BODY');
-    if (!hero || !advance || !toplist || !competate || !toplist3 || !competate3) {
-      console.error('One or more required fields are missing:', {
+    const {
+      hero,
+      advance,
+      card1,
+      card2,
+      card3,
+      card4,
+      card5,
+      card6,
+      toplist,
+      toplist2,
+      competate,
+      competate2,
+      toplist3,
+      competate3,
+    } = req.body;
+    console.log(req.body, "REQ.BODY");
+    if (
+      !hero ||
+      !advance ||
+      !toplist ||
+      !competate ||
+      !toplist3 ||
+      !competate3
+    ) {
+      console.error("One or more required fields are missing:", {
         hero,
         advance,
         toplist,
         competate,
         toplist3,
-        competate3
+        competate3,
       });
       return res
         .status(400)
-        .json({ success: false, message: 'Missing required fields' });
+        .json({ success: false, message: "Missing required fields" });
     }
 
     const hero1 = hero ? JSON.parse(hero) : null;
@@ -36,49 +57,45 @@ export const createStudioPage = async (req, res) => {
 
     // let heroVideoPath = req.files?.heroImage[0]?.path;
     let heroVideoPath = req.files?.heroImage?.map((file) => file.path) || [];
-    
-        let uploadedVideos = await Promise.all(
-          heroVideoPath.map((path) =>
-            uploadOnCloudinary(path, { resource_type: 'video' })
-          )
-        );
-        console.log(req.files, 'card1Image');
-    let card1Image = req.files?.card1Image?.[0]?.path ;
-    let card2Image = req.files?.card2Image?.[0]?.path ;
-    let card3Image = req.files?.card3Image?.[0]?.path ;
-    let card4Image = req.files?.card4Image?.[0]?.path ;
-    let card5Image = req.files?.card5Image?.[0]?.path ;
-    let card6Image = req.files?.card6Image?.[0]?.path ;
+
+    let uploadedVideos = await Promise.all(
+      heroVideoPath.map((path) =>
+        uploadOnCloudinary(path, { resource_type: "video" }),
+      ),
+    );
+    console.log(req.files, "card1Image");
+    let card1Image = req.files?.card1Image?.[0]?.path;
+    let card2Image = req.files?.card2Image?.[0]?.path;
+    let card3Image = req.files?.card3Image?.[0]?.path;
+    let card4Image = req.files?.card4Image?.[0]?.path;
+    let card5Image = req.files?.card5Image?.[0]?.path;
+    let card6Image = req.files?.card6Image?.[0]?.path;
     let toplistImage = req.files?.toplistImage?.[0]?.path;
     let toplistImage2 = req.files?.toplistImage2?.[0]?.path;
     let competateImage = req.files?.competateImage?.[0]?.path;
     let competateImage2 = req.files?.competateImage2?.[0]?.path;
     let toplistImage3 = req.files?.toplistImage3?.[0]?.path;
     let competateImage3 = req.files?.competateImage3?.[0]?.path;
-    
-console.log(card1Image,'card1Image');
-console.log(card2Image,'card2Image');
 
+    console.log(card1Image, "card1Image");
+    console.log(card2Image, "card2Image");
 
-    
     if (heroVideoPath) {
       heroVideoPath = await uploadOnCloudinary(heroVideoPath, {
-        resource_type: 'video',
+        resource_type: "video",
       });
     }
-    console.log(heroVideoPath, 'cloud hero');
+    console.log(heroVideoPath, "cloud hero");
 
     if (card1Image) {
       card1Image = await uploadOnCloudinary(card1Image);
     }
-    console.log(card1Image, 'cloud card1');
-    
+    console.log(card1Image, "cloud card1");
 
     if (card2Image) {
       card2Image = await uploadOnCloudinary(card2Image);
     }
-    console.log(card2Image, 'cloud card2');
-
+    console.log(card2Image, "cloud card2");
 
     if (card3Image) {
       card3Image = await uploadOnCloudinary(card3Image);
@@ -95,7 +112,6 @@ console.log(card2Image,'card2Image');
     if (card6Image) {
       card6Image = await uploadOnCloudinary(card6Image);
     }
-
 
     if (toplistImage) {
       toplistImage = await uploadOnCloudinary(toplistImage);
@@ -227,37 +243,35 @@ console.log(card2Image,'card2Image');
     res.status(200).json({
       success: true,
       studio,
-      message: 'studio page uploaded successfully',
+      message: "studio page uploaded successfully",
     });
   } catch (error) {
-    console.error('Error fetching studio:', error);
+    console.error("Error fetching studio:", error);
     return res
       .status(500)
-      .json({ success: false, error: 'Failed to fetch studio' });
+      .json({ success: false, error: "Failed to fetch studio" });
   }
 };
 
 export const createGetStudio = async (req, res) => {
   try {
     const studio = await studioSchema.find({});
-    console.log(studio, 'studio');
+    console.log(studio, "studio");
 
     res.status(200).json({
       success: true,
       studio,
-      message: 'studio page get successfully',
+      message: "studio page get successfully",
     });
   } catch (error) {
-    console.error('Error fetching studio:', error);
+    console.error("Error fetching studio:", error);
     return res
       .status(500)
-      .json({ success: false, error: 'Failed to fetch studio' });
+      .json({ success: false, error: "Failed to fetch studio" });
   }
 };
 
-
-// UPDATE API 
-
+// UPDATE API
 
 export const updateStudioPage = async (req, res) => {
   try {
@@ -276,7 +290,7 @@ export const updateStudioPage = async (req, res) => {
       card3,
       card4,
       card5,
-      card6
+      card6,
     } = req.body;
 
     // Parse JSON data from request
@@ -297,12 +311,12 @@ export const updateStudioPage = async (req, res) => {
 
     // Get file paths if provided
     // let heroVideoPath = req.files?.heroImage?.[0]?.path;
-    let card1Image = req.files?.card1Image?.[0]?.path ; 
-    let card2Image = req.files?.card2Image?.[0]?.path ;
-    let card3Image = req.files?.card3Image?.[0]?.path ;
-    let card4Image = req.files?.card4Image?.[0]?.path ;
-    let card5Image = req.files?.card5Image?.[0]?.path ;
-    let card6Image = req.files?.card6Image?.[0]?.path ;
+    let card1Image = req.files?.card1Image?.[0]?.path;
+    let card2Image = req.files?.card2Image?.[0]?.path;
+    let card3Image = req.files?.card3Image?.[0]?.path;
+    let card4Image = req.files?.card4Image?.[0]?.path;
+    let card5Image = req.files?.card5Image?.[0]?.path;
+    let card6Image = req.files?.card6Image?.[0]?.path;
     let toplistImage = req.files?.toplistImage?.[0]?.path;
     let toplistImage2 = req.files?.toplistImage2?.[0]?.path;
     let competateImage = req.files?.competateImage?.[0]?.path;
@@ -315,8 +329,8 @@ export const updateStudioPage = async (req, res) => {
 
     let uploadedVideos = await Promise.all(
       heroVideoPath.map((path) =>
-        uploadOnCloudinary(path, { resource_type: 'video' })
-      )
+        uploadOnCloudinary(path, { resource_type: "video" }),
+      ),
     );
     if (card1Image) {
       card1Image = await uploadOnCloudinary(card1Image);
@@ -365,7 +379,7 @@ export const updateStudioPage = async (req, res) => {
     if (!currentStudio) {
       return res
         .status(404)
-        .json({ success: false, message: 'Studio page not found' });
+        .json({ success: false, message: "Studio page not found" });
     }
 
     // Merge the current values with the new ones
@@ -386,80 +400,75 @@ export const updateStudioPage = async (req, res) => {
       description: advance1.description,
     };
     const updateCard1 = {
-      mainTitle: card11.mainTitle ?? currentStudio.card1.mainTitle ,
+      mainTitle: card11.mainTitle ?? currentStudio.card1.mainTitle,
       description: card11.description,
-      catogryImage: card1Image?.secure_url || currentStudio.card1.card1Image,
+      catogryImage: card1Image?.secure_url || currentStudio.card1.catogryImage,
     };
-
     const updateCard2 = {
       description: card22.description,
-      catogryImage: card2Image?.secure_url || currentStudio.card2.card2Image,
+      catogryImage: card2Image?.secure_url || currentStudio.card2.catogryImage,
     };
     const updateCard3 = {
       description: card33.description,
-      catogryImage: card3Image?.secure_url || currentStudio.card3.card3Image,
+      catogryImage: card3Image?.secure_url || currentStudio.card3.catogryImage,
     };
     const updateCard4 = {
       description: card44.description,
-      catogryImage: card4Image?.secure_url || currentStudio.card4.card4Image,
+      catogryImage: card4Image?.secure_url || currentStudio.card4.catogryImage,
     };
     const updateCard5 = {
       description: card55.description,
-      catogryImage: card5Image?.secure_url || currentStudio.card5.card5Image,
+      catogryImage: card5Image?.secure_url || currentStudio.card5.catogryImage,
     };
     const updateCard6 = {
       description: card66.description,
-      catogryImage: card6Image?.secure_url || currentStudio.card6.card6Image,
+      catogryImage: card6Image?.secure_url || currentStudio.card6.catogryImage,
     };
 
     const updatedToplist = {
-      alt: topList1.alt ,
-      title: topList1.title ,
-      genre: topList1.genre ,
-      line: topList1.line ,
-      description: topList1.description ,
-      description2: topList1.description2 ,
-      button: topList1.button ,
+      alt: topList1.alt,
+      title: topList1.title,
+      genre: topList1.genre,
+      line: topList1.line,
+      description: topList1.description,
+      description2: topList1.description2,
+      button: topList1.button,
       bgImage: toplistImage?.secure_url || currentStudio.toplist.bgImage,
       link: topList1.link,
     };
 
     const updatedToplist2 = {
-      alt: toplisted.alt ,
-      title: toplisted.title ,
-      genre: toplisted.genre ,
-      line: toplisted.line ,
-      description: toplisted.description ,
-      description2:toplisted.description2 ,
-      button: toplisted.button ,
+      alt: toplisted.alt,
+      title: toplisted.title,
+      genre: toplisted.genre,
+      line: toplisted.line,
+      description: toplisted.description,
+      description2: toplisted.description2,
+      button: toplisted.button,
       bgImage: toplistImage2?.secure_url || currentStudio.toplist2.bgImage,
       link: toplisted.link,
     };
 
     const updatedCompetate = {
-      alt: competate1.alt ,
-      title: competate1.title ,
-      genre: competate1.genre ,
-      description:
-        competate1.description ,
-      description2:
-        competate1.description2 ,
-      button: competate1.button ,
+      alt: competate1.alt,
+      title: competate1.title,
+      genre: competate1.genre,
+      description: competate1.description,
+      description2: competate1.description2,
+      button: competate1.button,
       bgImage: competateImage?.secure_url || currentStudio.competate.bgImage,
-      link:competate1.link
+      link: competate1.link,
     };
 
     const updatedCompetate2 = {
-      alt: competated.alt ,
-      title: competated.title ,
-      genre: competated.genre ,
-      description:
-        competated.description ,
-      description2:
-        competated.description2 ,
-      button: competated.button ,
+      alt: competated.alt,
+      title: competated.title,
+      genre: competated.genre,
+      description: competated.description,
+      description2: competated.description2,
+      button: competated.button,
       bgImage: competateImage2?.secure_url || currentStudio.competate2.bgImage,
-      link:competated.link
+      link: competated.link,
     };
     const updatedToplist3 = {
       alt: topList3.alt,
@@ -474,17 +483,15 @@ export const updateStudioPage = async (req, res) => {
     };
 
     const updatedCompetate3 = {
-      alt: competated3.alt ,
-      title: competated3.title ,
-      genre: competated3.genre ,
-      description:
-        competated3.description ,
-      description2:
-        competated3.description2 ,
-      button: competated3.button ,
+      alt: competated3.alt,
+      title: competated3.title,
+      genre: competated3.genre,
+      description: competated3.description,
+      description2: competated3.description2,
+      button: competated3.button,
       bgImage: competateImage3?.secure_url || currentStudio.competate3.bgImage,
-      link:competated3.link
-    }
+      link: competated3.link,
+    };
     const updateData = {
       hero: updatedHero,
       advance: updatedAdvance,
@@ -499,7 +506,7 @@ export const updateStudioPage = async (req, res) => {
       card3: updateCard3,
       card4: updateCard4,
       card5: updateCard5,
-      card6: updateCard6
+      card6: updateCard6,
     };
 
     // Update the document with merged data
@@ -510,13 +517,12 @@ export const updateStudioPage = async (req, res) => {
     res.status(200).json({
       success: true,
       studio: updatedStudio,
-      message: 'Studio page updated successfully',
+      message: "Studio page updated successfully",
     });
   } catch (error) {
-    console.error('Error updating studio:', error);
+    console.error("Error updating studio:", error);
     return res
       .status(500)
-      .json({ success: false, error: 'Failed to update studio' });
+      .json({ success: false, error: "Failed to update studio" });
   }
 };
-
