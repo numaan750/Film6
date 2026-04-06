@@ -65,7 +65,7 @@ export const createBlog = async (req, res) => {
       })
     );
 
-    const cleanedHtml = $.html();
+const cleanedHtml = $('body').html();
 
     // Save blog
     const newBlog = await blogSchema.create({
@@ -131,7 +131,7 @@ const { title, author, content: rawHtml, alt, date, youtubeUrl } = req.body;
         })
       );
 
-      blogToUpdate.content = $.html();
+blogToUpdate.content = $('body').html();
     }
 
     // Update other fields if provided

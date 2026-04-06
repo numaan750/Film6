@@ -1,5 +1,6 @@
 "use client";
 
+import "quill/dist/quill.snow.css";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import Hero from "@/components/Home/Hero";
@@ -200,7 +201,7 @@ const BlogDetail = () => {
           </div>
 
           <div className="pb-12 pt-6">
-            <div dangerouslySetInnerHTML={{ __html: singleBlog.content }} />
+<div className="ql-editor" dangerouslySetInnerHTML={{ __html: singleBlog.content }} />
           </div>
           {singleBlog.youtubeUrl && (
             <div className="mt-6 mb-8">
