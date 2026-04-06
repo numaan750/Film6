@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-const CategoriesFestival = ({ index = 0, description, img }) => {
+const CategoriesFestival = ({ index = 0, description, img, youtubeUrl }) => {
   return (
     <div>
       <motion.div
@@ -16,21 +16,35 @@ const CategoriesFestival = ({ index = 0, description, img }) => {
           ease: "easeOut",
         }}
       >
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          transition={{ type: "spring", stiffness: 300 }}
-        >
-          {img ? (
-            <Image
-              src={img}
-              alt={description}
-              width={400}
-              height={250}
-              className="w-full h-62 object-cover"
-              priority={true} // <-- yeh line image ko jaldi load karne ke liye
-            />
+        <div>
+          {youtubeUrl ? (
+            <div className="relative w-full h-64">
+              <iframe
+                src={`${youtubeUrl}?rel=0`}
+                title={description}
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                style={{ border: "none" }}
+              />
+            </div>
+          ) : img ? (
+            <motion.div
+              className="relative w-full h-64"
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <Image
+                src={img}
+                alt={description || "card image"}
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                className="object-cover"
+                priority={true}
+              />
+            </motion.div>
           ) : null}
-        </motion.div>
+        </div>
         <div className="p-4">
           <h2 className="text-xl font-sans font-medium mb-2">{description}</h2>
         </div>

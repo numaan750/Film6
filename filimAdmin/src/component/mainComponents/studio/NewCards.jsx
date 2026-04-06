@@ -27,6 +27,30 @@ const NewCards = ({
   card6Image,
   setCard6Image,
 }) => {
+  const convertToEmbedUrl = (url) => {
+    if (!url) return "";
+    // Agar pehle se embed URL hai
+    if (url.includes("youtube.com/embed/")) {
+      const match = url.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/);
+      return match ? `https://www.youtube.com/embed/${match[1]}` : url;
+    }
+    // youtu.be short link
+    if (url.includes("youtu.be/")) {
+      const match = url.match(/youtu\.be\/([a-zA-Z0-9_-]+)/);
+      return match ? `https://www.youtube.com/embed/${match[1]}` : url;
+    }
+    // watch?v= link
+    if (url.includes("youtube.com/watch")) {
+      const match = url.match(/[?&]v=([a-zA-Z0-9_-]+)/);
+      return match ? `https://www.youtube.com/embed/${match[1]}` : url;
+    }
+    // pura iframe tag paste kiya ho
+    if (url.includes("<iframe")) {
+      const match = url.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/);
+      return match ? `https://www.youtube.com/embed/${match[1]}` : "";
+    }
+    return "";
+  };
   const onChangeHandler = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -35,7 +59,7 @@ const NewCards = ({
   const onChangeHandler2 = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    setCard2((data = { description: "" }) => ({ ...data, [name]: value }));
+    setCard2((data) => ({ ...(data || { description: "" }), [name]: value }));
   };
   const onChangeHandler3 = (event) => {
     const name = event.target.name;
@@ -144,8 +168,26 @@ const NewCards = ({
                 name="description"
               />
             </div>
+            <div className="mb-4">
+              <h1 className="text-black">YOUTUBE URL (optional)</h1>
+              <input
+                type="text"
+                placeholder="https://www.youtube.com/embed/VIDEO_ID"
+                className="border border-black px-3 py-2 mt-2 outline-0 w-full"
+                value={card1.youtubeUrl || ""}
+                onChange={(e) => {
+                  const converted = convertToEmbedUrl(e.target.value);
+                  setCard1((data) => ({ ...data, youtubeUrl: converted }));
+                }}
+                name="youtubeUrl"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Agar YouTube URL dein to image ignore ho gi
+              </p>
+            </div>
           </div>
         </form>
+
         <form>
           {/* File Upload Section */}
           <div className="rounded-md border border-indigo-500 bg-gray-50 p-4 shadow-md w-36">
@@ -215,9 +257,25 @@ const NewCards = ({
                 name="description"
               />
             </div>
+            <div className="mb-4">
+              <h1 className="text-black">YOUTUBE URL (optional)</h1>
+              <input
+                type="text"
+                placeholder="https://www.youtube.com/embed/VIDEO_ID"
+                className="border border-black px-3 py-2 mt-2 outline-0 w-full"
+                value={card2?.youtubeUrl || ""}
+                onChange={(e) => {
+                  const converted = convertToEmbedUrl(e.target.value);
+                  setCard2((data) => ({ ...data, youtubeUrl: converted }));
+                }}
+                name="youtubeUrl"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Agar YouTube URL dein to image ignore ho gi
+              </p>
+            </div>
           </div>
         </form>
-
         <form>
           {/* File Upload Section */}
           <div className="rounded-md border border-indigo-500 bg-gray-50 p-4 shadow-md w-36">
@@ -253,7 +311,7 @@ const NewCards = ({
                 setCard3Image(file);
               }}
               id="upload33"
-              name="card1Image3"
+              name="card3Image"
               type="file"
               accept="image/*,video/*"
               className="hidden"
@@ -282,14 +340,30 @@ const NewCards = ({
                 type="text"
                 placeholder="Alt Text"
                 className="border border-black px-3 py-2 mt-2 outline-0 w-full"
-                value={card3.description}
+                value={card3?.description || ""}
                 onChange={onChangeHandler3}
                 name="description"
               />
             </div>
+            <div className="mb-4">
+              <h1 className="text-black">YOUTUBE URL (optional)</h1>
+              <input
+                type="text"
+                placeholder="https://www.youtube.com/embed/VIDEO_ID"
+                className="border border-black px-3 py-2 mt-2 outline-0 w-full"
+                value={card3.youtubeUrl || ""}
+                onChange={(e) => {
+                  const converted = convertToEmbedUrl(e.target.value);
+                  setCard3((data) => ({ ...data, youtubeUrl: converted }));
+                }}
+                name="youtubeUrl"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Agar YouTube URL dein to image ignore ho gi
+              </p>
+            </div>
           </div>
         </form>
-
         <form>
           {/* File Upload Section */}
           <div className="rounded-md border border-indigo-500 bg-gray-50 p-4 shadow-md w-36">
@@ -354,10 +428,27 @@ const NewCards = ({
                 type="text"
                 placeholder="Alt Text"
                 className="border border-black px-3 py-2 mt-2 outline-0 w-full"
-                value={card4.description}
+                value={card4?.description || ""}
                 onChange={onChangeHandler4}
                 name="description"
               />
+            </div>
+            <div className="mb-4">
+              <h1 className="text-black">YOUTUBE URL (optional)</h1>
+              <input
+                type="text"
+                placeholder="https://www.youtube.com/embed/VIDEO_ID"
+                className="border border-black px-3 py-2 mt-2 outline-0 w-full"
+                value={card4.youtubeUrl || ""}
+                onChange={(e) => {
+                  const converted = convertToEmbedUrl(e.target.value);
+                  setCard4((data) => ({ ...data, youtubeUrl: converted }));
+                }}
+                name="youtubeUrl"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Agar YouTube URL dein to image ignore ho gi
+              </p>
             </div>
           </div>
         </form>
@@ -425,10 +516,27 @@ const NewCards = ({
                 type="text"
                 placeholder="Alt Text"
                 className="border border-black px-3 py-2 mt-2 outline-0 w-full"
-                value={card5.description}
+                value={card5?.description || ""}
                 onChange={onChangeHandler5}
                 name="description"
               />
+            </div>
+            <div className="mb-4">
+              <h1 className="text-black">YOUTUBE URL (optional)</h1>
+              <input
+                type="text"
+                placeholder="https://www.youtube.com/embed/VIDEO_ID"
+                className="border border-black px-3 py-2 mt-2 outline-0 w-full"
+                value={card5.youtubeUrl || ""}
+                onChange={(e) => {
+                  const converted = convertToEmbedUrl(e.target.value);
+                  setCard5((data) => ({ ...data, youtubeUrl: converted }));
+                }}
+                name="youtubeUrl"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Agar YouTube URL dein to image ignore ho gi
+              </p>
             </div>
           </div>
         </form>
@@ -496,10 +604,27 @@ const NewCards = ({
                 type="text"
                 placeholder="Alt Text"
                 className="border border-black px-3 py-2 mt-2 outline-0 w-full"
-                value={card6.description}
+                value={card6?.description || ""}
                 onChange={onChangeHandler6}
                 name="description"
               />
+            </div>
+            <div className="mb-4">
+              <h1 className="text-black">YOUTUBE URL (optional)</h1>
+              <input
+                type="text"
+                placeholder="https://www.youtube.com/embed/VIDEO_ID"
+                className="border border-black px-3 py-2 mt-2 outline-0 w-full"
+                value={card6.youtubeUrl || ""}
+                onChange={(e) => {
+                  const converted = convertToEmbedUrl(e.target.value);
+                  setCard6((data) => ({ ...data, youtubeUrl: converted }));
+                }}
+                name="youtubeUrl"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Agar YouTube URL dein to image ignore ho gi
+              </p>
             </div>
           </div>
         </form>

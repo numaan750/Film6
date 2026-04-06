@@ -153,26 +153,32 @@ export const createStudioPage = async (req, res) => {
         mainTitle: card11.mainTitle,
         description: card11.description,
         catogryImage: card1Image?.secure_url,
+        youtubeUrl: card11.youtubeUrl || "",
       },
       card2: {
         description: card22.description,
         catogryImage: card2Image?.secure_url,
+        youtubeUrl: card22.youtubeUrl || "",
       },
       card3: {
         description: card33.description,
         catogryImage: card3Image?.secure_url,
+        youtubeUrl: card33.youtubeUrl || "",
       },
       card4: {
         description: card44.description,
         catogryImage: card4Image?.secure_url,
+        youtubeUrl: card44.youtubeUrl || "",
       },
       card5: {
         description: card55.description,
         catogryImage: card5Image?.secure_url,
+        youtubeUrl: card55.youtubeUrl || "",
       },
       card6: {
         description: card66.description,
         catogryImage: card6Image?.secure_url,
+        youtubeUrl: card66.youtubeUrl || "",
       },
       toplist: {
         alt: topList1.alt,
@@ -403,26 +409,32 @@ export const updateStudioPage = async (req, res) => {
       mainTitle: card11.mainTitle ?? currentStudio.card1.mainTitle,
       description: card11.description,
       catogryImage: card1Image?.secure_url || currentStudio.card1.catogryImage,
+      youtubeUrl: card11.youtubeUrl ?? currentStudio.card1.youtubeUrl ?? "",
     };
     const updateCard2 = {
       description: card22.description,
       catogryImage: card2Image?.secure_url || currentStudio.card2.catogryImage,
+      youtubeUrl: card22.youtubeUrl ?? currentStudio.card2.youtubeUrl ?? "",
     };
     const updateCard3 = {
       description: card33.description,
       catogryImage: card3Image?.secure_url || currentStudio.card3.catogryImage,
+      youtubeUrl: card33.youtubeUrl ?? currentStudio.card3.youtubeUrl ?? "",
     };
     const updateCard4 = {
       description: card44.description,
       catogryImage: card4Image?.secure_url || currentStudio.card4.catogryImage,
+      youtubeUrl: card44.youtubeUrl ?? currentStudio.card4.youtubeUrl ?? "",
     };
     const updateCard5 = {
       description: card55.description,
       catogryImage: card5Image?.secure_url || currentStudio.card5.catogryImage,
+      youtubeUrl: card55.youtubeUrl ?? currentStudio.card5.youtubeUrl ?? "",
     };
     const updateCard6 = {
       description: card66.description,
       catogryImage: card6Image?.secure_url || currentStudio.card6.catogryImage,
+      youtubeUrl: card66.youtubeUrl ?? currentStudio.card6.youtubeUrl ?? "",
     };
 
     const updatedToplist = {

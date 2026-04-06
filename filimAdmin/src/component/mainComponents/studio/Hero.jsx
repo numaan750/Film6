@@ -190,11 +190,26 @@ const Hero = () => {
     try {
       const formData = new FormData();
       const heroData = { title, alt, description };
-      const card2Data = { description: card2?.description || "" };
-      const card3Data = { description: card3?.description || "" };
-      const card4Data = { description: card4?.description || "" };
-      const card5Data = { description: card5?.description || "" };
-      const card6Data = { description: card6?.description || "" };
+      const card2Data = {
+        description: card2?.description || "",
+        youtubeUrl: card2?.youtubeUrl || "",
+      };
+      const card3Data = {
+        description: card3?.description || "",
+        youtubeUrl: card3?.youtubeUrl || "",
+      };
+      const card4Data = {
+        description: card4?.description || "",
+        youtubeUrl: card4?.youtubeUrl || "",
+      };
+      const card5Data = {
+        description: card5?.description || "",
+        youtubeUrl: card5?.youtubeUrl || "",
+      };
+      const card6Data = {
+        description: card6?.description || "",
+        youtubeUrl: card6?.youtubeUrl || "",
+      };
       formData.append("card1", JSON.stringify(card1));
       formData.append("card2", JSON.stringify(card2Data));
       formData.append("card3", JSON.stringify(card3Data));
@@ -255,11 +270,26 @@ const Hero = () => {
       const formData = new FormData();
       const heroData = { title, alt, description };
       formData.append("hero", JSON.stringify(heroData));
-      const card2Data = { description: card2.description };
-      const card3Data = { description: card3.description };
-      const card4Data = { description: card4.description };
-      const card5Data = { description: card5.description };
-      const card6Data = { description: card6.description };
+      const card2Data = {
+        description: card2.description,
+        youtubeUrl: card2.youtubeUrl || "",
+      };
+      const card3Data = {
+        description: card3.description,
+        youtubeUrl: card3.youtubeUrl || "",
+      };
+      const card4Data = {
+        description: card4.description,
+        youtubeUrl: card4.youtubeUrl || "",
+      };
+      const card5Data = {
+        description: card5.description,
+        youtubeUrl: card5.youtubeUrl || "",
+      };
+      const card6Data = {
+        description: card6.description,
+        youtubeUrl: card6.youtubeUrl || "",
+      };
       formData.append("card1", JSON.stringify(card1));
       formData.append("card2", JSON.stringify(card2Data));
       formData.append("card3", JSON.stringify(card3Data));

@@ -1,13 +1,13 @@
-'use client';
-import Hero from '@/components/Home/Hero';
-import TopListing from '@/components/Home/TopListing';
-import React, { useEffect, useState } from 'react';
-import Advancing from '@/components/Home/Advancing';
-import axios from 'axios';
-import Head from 'next/head';
-import Loading from '@/components/faq/Loading';
+"use client";
+import Hero from "@/components/Home/Hero";
+import TopListing from "@/components/Home/TopListing";
+import React, { useEffect, useState } from "react";
+import Advancing from "@/components/Home/Advancing";
+import axios from "axios";
+import Head from "next/head";
+import Loading from "@/components/faq/Loading";
 // import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-import CategoriesFestival from '@/components/Home/CategoriesFestival';
+import CategoriesFestival from "@/components/Home/CategoriesFestival";
 // loading
 const page = () => {
   const [heroData, setHeroData] = useState({});
@@ -26,18 +26,16 @@ const page = () => {
   const [card6, setCard6] = useState({});
   const [loading, setLoading] = useState(true);
   const [metaData, setMetaData] = useState({
-    page: 'studio',
-    title: '',
-    description: '',
+    page: "studio",
+    title: "",
+    description: "",
   });
 
-  
-  
   useEffect(() => {
     const fetchHeroData = async () => {
       try {
         const { data } = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/studio/getstudio`
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/studio/getstudio`,
         );
         setHeroData(data.studio[0].hero);
         setAdvanceData(data.studio[0].advance);
@@ -66,7 +64,7 @@ const page = () => {
   const fetchMetaData = async () => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/getmetadata`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/getmetadata`,
       );
       if (
         response.data &&
@@ -75,7 +73,7 @@ const page = () => {
       ) {
         const meta = response.data.data[0];
         setMetaData({
-          page: 'studio',
+          page: "studio",
           title: meta.studio.title,
           description: meta.studio.description,
         });
@@ -88,17 +86,16 @@ const page = () => {
 
   if (loading) return <Loading />;
 
-
   return (
     <div>
       <Head>
-        <title>{metaData.title || 'Blog Details'}</title>
-        <meta name='description' content={metaData.description} />
+        <title>{metaData.title || "Blog Details"}</title>
+        <meta name="description" content={metaData.description} />
       </Head>
       <Hero
         image={
           heroData?.bgImage?.map((video) => ({
-            type: 'video',
+            type: "video",
             value: video,
           })) || []
         }
@@ -141,19 +138,20 @@ const page = () => {
             img={card6?.catogryImage}
           />
         </div> */}
-      <section className='bg-black text-white py-12 px-4 sm:px-6 lg:px-20 mt-10'>
+      <section className="bg-black text-white py-12 px-4 sm:px-6 lg:px-20 mt-10">
         {/* Title OUTSIDE the grid */}
-        <h1 className='text-3xl font-medium text-center mb-12'>
+        <h1 className="text-3xl font-medium text-center mb-12">
           {card1?.mainTitle}
         </h1>
 
         {/* Grid of all cards */}
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[card1, card2, card3, card4, card5, card6].map((card, index) => (
             <CategoriesFestival
               key={index}
               description={card.description}
               img={card.catogryImage}
+              youtubeUrl={card.youtubeUrl}
               index={index}
             />
           ))}
@@ -168,12 +166,12 @@ const page = () => {
         genere={toplist?.genre}
         line={toplist?.line}
         description2={toplist?.description2}
-        height='height'
-        bgColor='color'
+        height="height"
+        bgColor="color"
         alt={toplist?.alt}
         link={toplist?.link}
       />
-      <div className='md:mt-32'>
+      <div className="md:mt-32">
         <TopListing
           title={robot?.title}
           description={robot?.description}
@@ -181,14 +179,14 @@ const page = () => {
           button={robot?.button}
           genere={robot?.genre}
           description2={robot?.description2}
-          order='reverse'
-          height='height'
-          bgColor='color'
+          order="reverse"
+          height="height"
+          bgColor="color"
           alt={robot?.alt}
           link={robot?.link}
         />
       </div>
-      <div className='md:mt-32'>
+      <div className="md:mt-32">
         <TopListing
           title={competate?.title}
           description={competate?.description}
@@ -197,14 +195,14 @@ const page = () => {
           genere={competate?.genre}
           line={competate?.line}
           description2={competate?.description2}
-          height='height'
-          bgColor='color'
+          height="height"
+          bgColor="color"
           alt={competate?.alt}
           link={competate?.link}
         />
       </div>
 
-      <div className='md:mt-32 '>
+      <div className="md:mt-32 ">
         <TopListing
           title={runway?.title}
           description={runway?.description}
@@ -212,14 +210,14 @@ const page = () => {
           button={runway?.button}
           genere={runway?.genre}
           description2={runway?.description2}
-          order='reverse'
-          height='height'
-          bgColor='color'
+          order="reverse"
+          height="height"
+          bgColor="color"
           alt={runway?.alt}
           link={runway?.link}
         />
       </div>
-      <div className='md:mt-32 '>
+      <div className="md:mt-32 ">
         <TopListing
           title={toplist3?.title}
           description={toplist3?.description}
@@ -228,13 +226,13 @@ const page = () => {
           genere={toplist3?.genre}
           line={toplist3?.line}
           description2={toplist3?.description2}
-          height='height'
-          bgColor='color'
+          height="height"
+          bgColor="color"
           alt={toplist3?.alt}
           link={toplist3?.link}
         />
       </div>
-      <div className='md:mt-32 md:mb-40 max-sm:mb-16'>
+      <div className="md:mt-32 md:mb-40 max-sm:mb-16">
         <TopListing
           title={competate3?.title}
           description={competate3?.description}
@@ -242,9 +240,9 @@ const page = () => {
           button={competate3?.button}
           genere={competate3?.genre}
           description2={competate3?.description2}
-          order='reverse'
-          height='height'
-          bgColor='color'
+          order="reverse"
+          height="height"
+          bgColor="color"
           alt={competate3?.alt}
           link={competate3?.link}
         />

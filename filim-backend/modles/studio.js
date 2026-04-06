@@ -17,26 +17,32 @@ const StudioPageSchema = new mongoose.Schema({
     mainTitle: { type: String },
     description: { type: String },
     catogryImage: { type: String },
+    youtubeUrl: { type: String },
   },
   card2: {
     description: { type: String },
     catogryImage: { type: String },
+    youtubeUrl: { type: String },
   },
   card3: {
     description: { type: String },
     catogryImage: { type: String },
+    youtubeUrl: { type: String },
   },
   card4: {
     description: { type: String },
     catogryImage: { type: String },
+    youtubeUrl: { type: String },
   },
   card5: {
     description: { type: String },
     catogryImage: { type: String },
+    youtubeUrl: { type: String },
   },
   card6: {
     description: { type: String },
     catogryImage: { type: String },
+    youtubeUrl: { type: String },
   },
   toplist: {
     alt: { type: String },
@@ -105,5 +111,5 @@ const StudioPageSchema = new mongoose.Schema({
 });
 
 const studioSchema =
-  mongoose.models.studio || mongoose.model('studio', StudioPageSchema);
+  mongoose.models.studio || mongoose.model("studio", StudioPageSchema);
 export default studioSchema;
