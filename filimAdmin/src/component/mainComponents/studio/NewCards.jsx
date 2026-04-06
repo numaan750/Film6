@@ -182,8 +182,7 @@ const NewCards = ({
                 name="youtubeUrl"
               />
               <p className="text-xs text-gray-500 mt-1">
-                Agar YouTube URL dein to image ignore ho gi
-              </p>
+                If a YouTube URL is provided, the image will be hidden.              </p>
             </div>
           </div>
         </form>
@@ -271,8 +270,7 @@ const NewCards = ({
                 name="youtubeUrl"
               />
               <p className="text-xs text-gray-500 mt-1">
-                Agar YouTube URL dein to image ignore ho gi
-              </p>
+                If a YouTube URL is provided, the image will be hidden.              </p>
             </div>
           </div>
         </form>
@@ -359,8 +357,7 @@ const NewCards = ({
                 name="youtubeUrl"
               />
               <p className="text-xs text-gray-500 mt-1">
-                Agar YouTube URL dein to image ignore ho gi
-              </p>
+                If a YouTube URL is provided, the image will be hidden.              </p>
             </div>
           </div>
         </form>
@@ -447,8 +444,7 @@ const NewCards = ({
                 name="youtubeUrl"
               />
               <p className="text-xs text-gray-500 mt-1">
-                Agar YouTube URL dein to image ignore ho gi
-              </p>
+                If a YouTube URL is provided, the image will be hidden.              </p>
             </div>
           </div>
         </form>
@@ -535,8 +531,7 @@ const NewCards = ({
                 name="youtubeUrl"
               />
               <p className="text-xs text-gray-500 mt-1">
-                Agar YouTube URL dein to image ignore ho gi
-              </p>
+                If a YouTube URL is provided, the image will be hidden.              </p>
             </div>
           </div>
         </form>
@@ -623,8 +618,7 @@ const NewCards = ({
                 name="youtubeUrl"
               />
               <p className="text-xs text-gray-500 mt-1">
-                Agar YouTube URL dein to image ignore ho gi
-              </p>
+                If a YouTube URL is provided, the image will be hidden.              </p>
             </div>
           </div>
         </form>
