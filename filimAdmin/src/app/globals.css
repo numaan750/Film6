@@ -35,3 +35,14 @@ body {
   width: 96% !important;
   margin: auto !important;
 } */
+
+
+.ql-container img {
+  max-width: 60% !important;
+  width: 60% !important;
+  height: auto !important;
+  display: block !important;
+  margin: 1em auto !important;
+  object-fit: contain !important;
+  border-radius: 8px !important;
+}

@@ -226,7 +226,7 @@ const BlogDetail = () => {
                 return (
                   <>
                     <div
-                      className="ql-editor"
+                      className="ql-editor blog-content"
                       dangerouslySetInnerHTML={{ __html: first }}
                     />
 
@@ -248,7 +248,7 @@ const BlogDetail = () => {
                     </div>
 
                     <div
-                      className="ql-editor"
+                      className="ql-editor blog-content"
                       dangerouslySetInnerHTML={{ __html: second }}
                     />
                   </>
@@ -256,7 +256,7 @@ const BlogDetail = () => {
               })()
             ) : (
               <div
-                className="ql-editor"
+                className="ql-editor blog-content"
                 dangerouslySetInnerHTML={{ __html: singleBlog.content }}
               />
             )}
