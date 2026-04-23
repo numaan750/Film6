@@ -18,6 +18,7 @@ import metaRouter from "./routes/metaRoute.js";
 import faqRoute from "./routes/faqRoute.js";
 import termRoute from "./routes/termRoute.js";
 import emailRoute from "./routes/emailRoute.js";
+import registrationRoute from './routes/registrationRoute.js';
 
 const app = express();
 // const port = process.env.Port || 4000;
@@ -43,6 +44,8 @@ app.use("/api", metaRouter);
 app.use("/api/faq", faqRoute);
 app.use("/api/term", termRoute);
 app.use("/api/", emailRoute);
+app.use('/api', registrationRoute);
+
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

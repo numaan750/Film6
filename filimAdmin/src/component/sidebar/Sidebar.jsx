@@ -82,6 +82,12 @@ const menuItems = [
     link: '/email',
     subMenu: [], // no sub-menu, so should route
   },
+  {
+    label: 'Registrations',
+    icon: <FaShoppingCart size={20} className='mr-3 text-white' />,
+    link: '/registrations',
+    subMenu: [],
+  },
 ];
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {

@@ -1,25 +1,25 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 const Cookies = () => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const consent = document.cookie
-      .split('; ')
-      .find((row) => row.startsWith('mySiteCookieConsent='));
+      .split("; ")
+      .find((row) => row.startsWith("mySiteCookieConsent="));
     if (!consent) setVisible(true);
   }, []);
 
   useEffect(() => {
     if (visible) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     }
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     };
   }, [visible]);
 
@@ -30,18 +30,18 @@ const Cookies = () => {
   };
 
   const handleAccept = () => {
-    setCookie('true');
+    setCookie("true");
     setVisible(false);
-    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-      window.gtag('consent', 'update', {
-        ad_storage: 'granted',
-        analytics_storage: 'granted',
+    if (typeof window !== "undefined" && typeof window.gtag === "function") {
+      window.gtag("consent", "update", {
+        ad_storage: "granted",
+        analytics_storage: "granted",
       });
     }
   };
 
   const handleDecline = () => {
-    setCookie('false');
+    setCookie("false");
     setVisible(false);
   };
 
@@ -65,13 +65,13 @@ const Cookies = () => {
         <div className="flex items-center justify-center gap-2.5">
           <button
             onClick={handleDecline}
-            className="cursor-pointer rounded-sm border border-white px-5 py-2.5 font-mono text-[11px] uppercase tracking-wider text-white transition-colors "
+            className="cursor-pointer rounded-sm border bg-red-600 px-5 py-2.5 font-mono text-[11px] uppercase tracking-wider text-white transition-colors "
           >
             Decline
           </button>
           <button
             onClick={handleAccept}
-            className="cursor-pointer rounded-sm border border-white bg-white px-5 py-2.5 font-mono text-[11px] uppercase tracking-wider text-black transition-colors hover:bg-neutral-200 hover:border-neutral-200"
+            className="cursor-pointer rounded-sm border border-white bg-yellow-500 px-5 py-2.5 font-mono text-[11px] uppercase tracking-wider text-black transition-colors"
           >
             Accept
           </button>
