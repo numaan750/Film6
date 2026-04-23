@@ -24,6 +24,23 @@ const extractYouTubeId = (url) => {
   return match ? match[1] : "";
 };
 
+const splitContentInHalf = (html) => {
+  if (!html) return { first: "", second: "" };
+
+  const mid = Math.floor(html.length / 2);
+  const closingTagIndex = html.indexOf(">", mid);
+
+  if (closingTagIndex === -1) {
+    return { first: html, second: "" };
+  }
+
+  const splitAt = closingTagIndex + 1;
+  return {
+    first: html.slice(0, splitAt),
+    second: html.slice(splitAt),
+  };
+};
+
 const BlogDetail = () => {
   const { title } = useParams();
   console.log(title, "title");
@@ -201,25 +218,49 @@ const BlogDetail = () => {
           </div>
 
           <div className="pb-12 pt-6">
-<div className="ql-editor" dangerouslySetInnerHTML={{ __html: singleBlog.content }} />
-          </div>
-          {singleBlog.youtubeUrl && (
-            <div className="mt-6 mb-8">
+            {singleBlog.youtubeUrl && singleBlog.youtubeUrl.trim() !== "" ? (
+              (() => {
+                const { first, second } = splitContentInHalf(
+                  singleBlog.content || "",
+                );
+                return (
+                  <>
+                    <div
+                      className="ql-editor"
+                      dangerouslySetInnerHTML={{ __html: first }}
+                    />
+
+                    {/* YouTube Video - Middle */}
+                    <div className="my-8">
+                      <div
+                        className="relative w-full"
+                        style={{ paddingBottom: "56.25%" }}
+                      >
+                        <iframe
+                          className="absolute top-0 left-0 w-full h-full rounded-lg"
+                          src={`https://www.youtube.com/embed/${extractYouTubeId(singleBlog.youtubeUrl)}`}
+                          title="YouTube video"
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      </div>
+                    </div>
+
+                    <div
+                      className="ql-editor"
+                      dangerouslySetInnerHTML={{ __html: second }}
+                    />
+                  </>
+                );
+              })()
+            ) : (
               <div
-                className="relative w-full"
-                style={{ paddingBottom: "56.25%" }}
-              >
-                <iframe
-                  className="absolute top-0 left-0 w-full h-full rounded-lg"
-                  src={`https://www.youtube.com/embed/${extractYouTubeId(singleBlog.youtubeUrl)}`}
-                  title="YouTube video"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              </div>
-            </div>
-          )}
+                className="ql-editor"
+                dangerouslySetInnerHTML={{ __html: singleBlog.content }}
+              />
+            )}
+          </div>
         </div>
 
         {/* Sidebar */}
