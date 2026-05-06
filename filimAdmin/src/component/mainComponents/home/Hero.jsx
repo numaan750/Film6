@@ -70,6 +70,14 @@ const Hero = () => {
   const [videoData2, setVideoData2] = useState("");
   // Home ID to determine whether to create or update the home page data
   const [homeId, setHomeId] = useState(null);
+  // Old images states (jo already backend pe saved hain)
+  const [oldHeroImages, setOldHeroImages] = useState([]);
+  const [oldAdvanceImage, setOldAdvanceImage] = useState([]);
+  const [oldToplistImage, setOldToplistImage] = useState([]);
+  const [oldRobotImage, setOldRobotImage] = useState([]);
+  const [oldCompetateImage, setOldCompetateImage] = useState([]);
+  const [oldRunwayImage, setOldRunwayImage] = useState([]);
+  const [oldVideo, setOldVideo] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -87,36 +95,43 @@ const Hero = () => {
             setDescription(homeData.hero.description || "");
             setButton(homeData.hero.button || "");
             setAlt(homeData.hero.alt || "");
-            setImage(homeData.hero.bgImage || []);
             setLink(homeData.hero.link || "");
+            setOldHeroImages(homeData.hero.bgImage || []);
+            setImage([]); // naye uploads ke liye
           }
           console.log(homeData.hero.bgImage, "response get api hero bgImage");
           if (homeData?.advance) {
             setAdvance(homeData.advance);
-            setAdvanceImage(homeData.advance.bgImage);
+            setOldAdvanceImage(homeData.advance.bgImage || []);
+            setAdvanceImage(null);
           }
           if (homeData?.toplist) {
             setToplist(homeData.toplist);
-            setToplistImage(homeData.toplist.bgImage);
+            setOldToplistImage(homeData.toplist.bgImage || []);
+            setToplistImage(null);
           }
           if (homeData?.videos) {
             setVideoData(homeData.videos.title);
             setVideoData2(homeData.videos.description);
-            setVideos(homeData.videos.videoUrls);
+            setOldVideo(homeData.videos.videoUrls || null);
+            setVideos(null); // naye upload ke liye
           }
           console.log(homeData.videos, "response get api hero bgImage");
 
           if (homeData?.robot) {
             setRobot(homeData.robot);
-            setRobotImage(homeData.robot.bgImage);
+            setOldRobotImage(homeData.robot.bgImage || []);
+            setRobotImage(null);
           }
           if (homeData?.competate) {
             setCompetate(homeData.competate);
-            setCompetateImage(homeData.competate.bgImage);
+            setOldCompetateImage(homeData.competate.bgImage || []);
+            setCompetateImage(null);
           }
           if (homeData?.runway) {
             setRunway(homeData.runway);
-            setRunwayImage(homeData.runway.bgImage);
+            setOldRunwayImage(homeData.runway.bgImage || []);
+            setRunwayImage(null);
           }
         }
       } catch (error) {
@@ -146,10 +161,11 @@ const Hero = () => {
       const videoMetaData = { title: videoData, description: videoData2 };
       formData.append("videos", JSON.stringify(videoMetaData));
 
-      if (Array.isArray(image)) {
+      if (Array.isArray(image) && image.length > 0) {
         image.forEach((file) => {
-          console.log("Appending file to FormData:", file.name);
-          formData.append("heroImage", file);
+          if (file instanceof File) {
+            formData.append("heroImage", file);
+          }
         });
       }
 
@@ -196,10 +212,11 @@ const Hero = () => {
       const videoMetaData = { title: videoData, description: videoData2 };
       formData.append("videos", JSON.stringify(videoMetaData));
 
-      if (Array.isArray(image)) {
+      if (Array.isArray(image) && image.length > 0) {
         image.forEach((file) => {
-          console.log("Appending file to FormData:", file.name);
-          formData.append("heroImage", file);
+          if (file instanceof File) {
+            formData.append("heroImage", file);
+          }
         });
       }
 
@@ -215,7 +232,23 @@ const Hero = () => {
         formData,
         { headers: { "Content-Type": "multipart/form-data" } },
       );
-
+      const updatedHome = response.data.home;
+      if (updatedHome) {
+        setOldHeroImages(updatedHome.hero?.bgImage || []);
+        setImage([]);
+        setOldAdvanceImage(updatedHome.advance?.bgImage || []);
+        setAdvanceImage(null);
+        setOldToplistImage(updatedHome.toplist?.bgImage || []);
+        setToplistImage(null);
+        setOldRobotImage(updatedHome.robot?.bgImage || []);
+        setRobotImage(null);
+        setOldCompetateImage(updatedHome.competate?.bgImage || []);
+        setCompetateImage(null);
+        setOldRunwayImage(updatedHome.runway?.bgImage || []);
+        setRunwayImage(null);
+        setOldVideo(updatedHome.videos?.videoUrls || null);
+        setVideos(null);
+      }
       toast.success("Home page updated successfully!");
       console.log("Update Response:", response.data);
     } catch (error) {
@@ -268,7 +301,10 @@ const Hero = () => {
                     return;
                   }
                 }
-                setImage(files);
+                setImage((prev) => {
+                  const prevArr = Array.isArray(prev) ? prev : [];
+                  return [...prevArr, ...files];
+                });
               }}
               id="upload2"
               type="file"
@@ -277,22 +313,67 @@ const Hero = () => {
               className="hidden"
             />
           </div>
-          {/* Video Preview */}
+
           {Array.isArray(image) && image.length > 0 && (
-            <div className="mt-4 flex gap-4 flex-wrap">
-              {image.map((item, index) => (
-                <div key={index} className="relative -z-30">
-                  <video
-                    src={
-                      typeof item === "string"
-                        ? item
-                        : URL.createObjectURL(item)
-                    }
-                    controls
-                    className="w-36 h-auto"
-                  />
-                </div>
-              ))}
+            <div className="mt-4">
+              <h2 className="text-sm font-semibold text-green-600 mb-2">
+                NEW VIDEOS (Upload hone wale)
+              </h2>
+              <div className="flex gap-4 flex-wrap">
+                {image.map((item, index) => (
+                  <div key={index} className="relative">
+                    <video
+                      src={
+                        item instanceof File ? URL.createObjectURL(item) : item
+                      }
+                      controls
+                      className="w-36 h-auto"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* OLD HERO VIDEOS — NEECHE */}
+          {oldHeroImages.length > 0 && (
+            <div className="mt-4">
+              <h2 className="text-sm font-semibold text-gray-500 mb-2">
+                OLD VIDEOS
+              </h2>
+              <div className="flex gap-4 flex-wrap">
+                {[...oldHeroImages].reverse().map((url, index) => (
+                  <div key={index} className="relative">
+                    <video src={url} controls className="w-36 h-auto" />
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        try {
+                          await axios.delete(
+                            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/home/deleteimage/${homeId}`,
+                            {
+                              data: {
+                                section: "hero",
+                                field: "bgImage",
+                                imageUrl: url,
+                              },
+                            },
+                          );
+                          setOldHeroImages((prev) =>
+                            prev.filter((u) => u !== url),
+                          );
+                          toast.success("Video deleted!");
+                        } catch {
+                          toast.error("Delete failed!");
+                        }
+                      }}
+                      className="absolute top-0 right-0 bg-red-500 text-white text-xs px-2 py-1 z-10"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
@@ -356,12 +437,18 @@ const Hero = () => {
         setAdvance={setAdvance}
         advanceImage={advanceImage}
         setAdvanceImage={setAdvanceImage}
+        homeId={homeId}
+        oldAdvanceImage={oldAdvanceImage}
+        setOldAdvanceImage={setOldAdvanceImage}
       />
       <TopListing
         toplist={toplist}
         setToplist={setToplist}
         toplistImage={toplistImage}
         setToplistImage={setToplistImage}
+        homeId={homeId}
+        oldToplistImage={oldToplistImage}
+        setOldToplistImage={setOldToplistImage}
       />
       <div className="p-4 border mt-10">
         <h1 className="text-black pt-4">You Only Add One Video At A Time</h1>
@@ -405,17 +492,57 @@ const Hero = () => {
             }}
           />
         </div>
-        {videos && (
-          <div className="mt-4 flex gap-4 flex-wrap">
+        {/* NEW VIDEO — UPAR */}
+        {videos && videos instanceof File && (
+          <div className="mt-4">
+            <h2 className="text-sm font-semibold text-green-600 mb-2">
+              NEW VIDEO (Upload hone wala)
+            </h2>
             <video
               controls
               className="w-64 h-40 object-cover"
-              src={
-                typeof videos === "string"
-                  ? videos
-                  : URL.createObjectURL(videos)
-              }
-            ></video>
+              src={URL.createObjectURL(videos)}
+            />
+          </div>
+        )}
+
+        {/* OLD VIDEO — NEECHE */}
+        {oldVideo && (
+          <div className="mt-4">
+            <h2 className="text-sm font-semibold text-gray-500 mb-2">
+              OLD VIDEO
+            </h2>
+            <div className="relative w-64">
+              <video
+                controls
+                className="w-64 h-40 object-cover"
+                src={oldVideo}
+              />
+              <button
+                type="button"
+                onClick={async () => {
+                  try {
+                    await axios.delete(
+                      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/home/deleteimage/${homeId}`,
+                      {
+                        data: {
+                          section: "videos",
+                          field: "videoUrls",
+                          imageUrl: oldVideo,
+                        },
+                      },
+                    );
+                    setOldVideo(null);
+                    toast.success("Video deleted!");
+                  } catch {
+                    toast.error("Delete failed!");
+                  }
+                }}
+                className="absolute top-0 right-0 bg-red-500 text-white text-xs px-2 py-1"
+              >
+                ✕
+              </button>
+            </div>
           </div>
         )}
         <div className="mb-4 mt-6">
@@ -444,18 +571,27 @@ const Hero = () => {
         setRobot={setRobot}
         robotImage={robotImage}
         setRobotImage={setRobotImage}
+        homeId={homeId}
+        oldRobotImage={oldRobotImage}
+        setOldRobotImage={setOldRobotImage}
       />
       <Competition
         competate={competate}
         setCompetate={setCompetate}
         competateImage={competateImage}
         setCompetateImage={setCompetateImage}
+        homeId={homeId}
+        oldCompetateImage={oldCompetateImage}
+        setOldCompetateImage={setOldCompetateImage}
       />
       <Runway
         runway={runway}
         setRunway={setRunway}
         runwayImage={runwayImage}
         setRunwayImage={setRunwayImage}
+        homeId={homeId}
+        oldRunwayImage={oldRunwayImage}
+        setOldRunwayImage={setOldRunwayImage}
       />
       <div className="flex justify-end mt-8 mb-8">
         {homeId ? (

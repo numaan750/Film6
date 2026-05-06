@@ -1,82 +1,87 @@
-import express from 'express';
-import { createGetHome, createHomePage, updateHomePage } from '../controllers/homeController.js';
-import upload from '../middlewere/multer.js';
-import validateFileSize from '../middlewere/validateFileSize.js';
-
+import express from "express";
+import {
+  createGetHome,
+  createHomePage,
+  deleteHomeImage,
+  updateHomePage,
+} from "../controllers/homeController.js";
+import upload from "../middlewere/multer.js";
+import validateFileSize from "../middlewere/validateFileSize.js";
 
 const homeRouter = express.Router();
 
-homeRouter.get('/gethome', createGetHome)
+homeRouter.get("/gethome", createGetHome);
 homeRouter.post(
-  '/homeRoute',
+  "/homeRoute",
   upload.fields([
     {
-      name: 'heroImage',
+      name: "heroImage",
       maxCount: 10,
     },
     {
-      name: 'advanceImage',
+      name: "advanceImage",
       maxCount: 1,
     },
     {
-      name: 'toplistImage',
+      name: "toplistImage",
       maxCount: 1,
     },
     {
-      name: 'videoPlayer',
+      name: "videoPlayer",
       maxCount: 1,
     },
     {
-      name: 'robotImage',
+      name: "robotImage",
       maxCount: 1,
     },
     {
-      name: 'competateImage',
+      name: "competateImage",
       maxCount: 1,
     },
     {
-      name: 'runwayImage',
+      name: "runwayImage",
       maxCount: 1,
     },
   ]),
   validateFileSize,
-  createHomePage
+  createHomePage,
 );
 
 homeRouter.put(
-  '/homeupdate/:id',
+  "/homeupdate/:id",
   upload.fields([
     {
-      name: 'heroImage',
+      name: "heroImage",
       maxCount: 10,
     },
     {
-      name: 'advanceImage',
+      name: "advanceImage",
       maxCount: 1,
     },
     {
-      name: 'toplistImage',
+      name: "toplistImage",
       maxCount: 1,
     },
     {
-      name: 'videoPlayer',
+      name: "videoPlayer",
       maxCount: 1,
     },
     {
-      name: 'robotImage',
+      name: "robotImage",
       maxCount: 1,
     },
     {
-      name: 'competateImage',
+      name: "competateImage",
       maxCount: 1,
     },
     {
-      name: 'runwayImage',
+      name: "runwayImage",
       maxCount: 1,
     },
   ]),
   validateFileSize,
   updateHomePage,
 );
+homeRouter.delete("/deleteimage/:id", deleteHomeImage);
 
 export default homeRouter;

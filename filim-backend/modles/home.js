@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const HomePageSchema = new mongoose.Schema({
   hero: {
@@ -12,13 +12,13 @@ const HomePageSchema = new mongoose.Schema({
 
   advance: {
     alt: { type: String },
-    bgImage: { type: String },
+    bgImage: [{ type: String }],
     title: { type: String },
     title2: { type: String },
     description: { type: String },
   },
   toplist: {
-    bgImage: { type: String },
+    bgImage: [{ type: String }],
     alt: { type: String },
     title: { type: String },
     description: { type: String },
@@ -32,7 +32,7 @@ const HomePageSchema = new mongoose.Schema({
   },
   robot: {
     alt: { type: String },
-    bgImage: { type: String },
+    bgImage: [{ type: String }],
     title: { type: String },
     description: { type: String },
     button: { type: String },
@@ -40,7 +40,7 @@ const HomePageSchema = new mongoose.Schema({
   },
   competate: {
     alt: { type: String },
-    bgImage: { type: String },
+    bgImage: [{ type: String }],
     title: { type: String },
     description: { type: String },
     button: { type: String },
@@ -48,7 +48,7 @@ const HomePageSchema = new mongoose.Schema({
   },
   runway: {
     alt: { type: String },
-    bgImage: { type: String },
+    bgImage: [{ type: String }],
     title: { type: String },
     button: { type: String },
     link: { type: String },
@@ -56,5 +56,5 @@ const HomePageSchema = new mongoose.Schema({
 });
 
 const homeSchema =
-  mongoose.models.home || mongoose.model('home', HomePageSchema);
+  mongoose.models.home || mongoose.model("home", HomePageSchema);
 export default homeSchema;

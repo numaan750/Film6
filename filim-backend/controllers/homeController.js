@@ -1,9 +1,10 @@
-import homeSchema from '../modles/home.js';
-import { uploadOnCloudinary } from '../utils/cloudinary.js';
+import homeSchema from "../modles/home.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 export const createHomePage = async (req, res) => {
   try {
-    const { hero, advance, toplist, robot, competate, runway,videos } = req.body;
+    const { hero, advance, toplist, robot, competate, runway, videos } =
+      req.body;
     const hero1 = JSON.parse(hero);
     const advance1 = JSON.parse(advance);
     const topList1 = JSON.parse(toplist);
@@ -11,34 +12,34 @@ export const createHomePage = async (req, res) => {
     const competate1 = JSON.parse(competate);
     const runway1 = JSON.parse(runway);
     const videos1 = JSON.parse(videos);
-    
+
     let heroVideoPath = req.files?.heroImage?.map((file) => file.path) || [];
 
     let uploadedVideos = await Promise.all(
       heroVideoPath.map((path) =>
-        uploadOnCloudinary(path, { resource_type: 'video' })
-    )
-  );
-  
-  let videoPlayerPath = req.files?.videoPlayer?.[0]?.path;
+        uploadOnCloudinary(path, { resource_type: "video" }),
+      ),
+    );
+
+    let videoPlayerPath = req.files?.videoPlayer?.[0]?.path;
     let advanceImage = req.files?.advanceImage[0]?.path;
     let toplistImage = req.files?.toplistImage[0]?.path;
     let robotImage = req.files?.robotImage[0]?.path;
     let competateImage = req.files?.competateImage[0]?.path;
     let runwayImage = req.files?.runwayImage[0]?.path;
 
-    console.log(req.files.heroImage, 'heroImage');
+    console.log(req.files.heroImage, "heroImage");
 
     if (heroVideoPath) {
       heroVideoPath = await uploadOnCloudinary(heroVideoPath, {
-        resource_type: 'video',
+        resource_type: "video",
       });
     }
     if (videoPlayerPath) {
       videoPlayerPath = await uploadOnCloudinary(videoPlayerPath, {
-        resource_type: 'video',
+        resource_type: "video",
       });
-    }  
+    }
     if (advanceImage) {
       advanceImage = await uploadOnCloudinary(advanceImage);
     }
@@ -46,7 +47,7 @@ export const createHomePage = async (req, res) => {
     if (toplistImage) {
       toplistImage = await uploadOnCloudinary(toplistImage);
     }
-    
+
     if (robotImage) {
       robotImage = await uploadOnCloudinary(robotImage);
     }
@@ -87,7 +88,7 @@ export const createHomePage = async (req, res) => {
       videos: {
         title: videos1.title,
         description: videos1.description,
-        videoUrls: videoPlayerPath?.secure_url
+        videoUrls: videoPlayerPath?.secure_url,
       },
       robot: {
         alt: robot1.alt,
@@ -117,13 +118,13 @@ export const createHomePage = async (req, res) => {
     res.status(200).json({
       success: true,
       home,
-      message: 'home page uploaded successfully',
+      message: "home page uploaded successfully",
     });
   } catch (error) {
-    console.error('Error fetching HomePage:', error);
+    console.error("Error fetching HomePage:", error);
     return res
       .status(500)
-      .json({ success: false, error: 'Failed to fetch HomePage' });
+      .json({ success: false, error: "Failed to fetch HomePage" });
   }
 };
 
@@ -135,18 +136,15 @@ export const createGetHome = async (req, res) => {
     res.status(200).json({
       success: true,
       home,
-      message: 'home page get successfully',
+      message: "home page get successfully",
     });
   } catch (error) {
-    console.error('Error fetching HomePage:', error);
+    console.error("Error fetching HomePage:", error);
     return res
       .status(500)
-      .json({ success: false, error: 'Failed to fetch HomePage' });
+      .json({ success: false, error: "Failed to fetch HomePage" });
   }
 };
-
-
-
 
 export const updateHomePage = async (req, res) => {
   try {
@@ -155,13 +153,12 @@ export const updateHomePage = async (req, res) => {
     if (!existingHome) {
       return res.status(404).json({
         success: false,
-        message: 'Home page not found',
+        message: "Home page not found",
       });
     }
 
     const updates = {};
-    console.log('Raw req.body:', req.body);
-
+    console.log("Raw req.body:", req.body);
 
     if (req.body.hero) {
       let heroData = JSON.parse(req.body.hero);
@@ -169,38 +166,39 @@ export const updateHomePage = async (req, res) => {
         const heroVideoPath = req.files.heroImage.map((file) => file.path);
         const uploadedVideos = await Promise.all(
           heroVideoPath.map((path) =>
-            uploadOnCloudinary(path, { resource_type: 'video' })
-          )
+            uploadOnCloudinary(path, { resource_type: "video" }),
+          ),
         );
-        heroData.bgImage = uploadedVideos.map((v) => v.secure_url);
+        const existingImages = existingHome.hero?.bgImage || [];
+        const newImages = uploadedVideos.map((v) => v.secure_url);
+        heroData.bgImage = [...existingImages, ...newImages];
       } else {
         // Preserve the existing videos if no new file is uploaded
         heroData.bgImage = existingHome.hero?.bgImage;
       }
       updates.hero = heroData;
     }
-    console.log(req.files, 'req.files');
-    
-    
+    console.log(req.files, "req.files");
+
     if (req.body.videos) {
-      console.log(req.body.videos, 'req.body.videos');
-      
+      console.log(req.body.videos, "req.body.videos");
+
       let videosData = JSON.parse(req.body.videos);
       if (req.files && req.files.videoPlayer && req.files.videoPlayer.length) {
-        console.log(req.files.videoPlayer, 'req.files.videoPlayer');
-        
+        console.log(req.files.videoPlayer, "req.files.videoPlayer");
+
         const videoPath = req.files.videoPlayer[0].path;
         const uploaded = await uploadOnCloudinary(videoPath, {
-          resource_type: 'video',
+          resource_type: "video",
         });
-        console.log(uploaded, 'uploaded');
+        console.log(uploaded, "uploaded");
         videosData.videoUrls = uploaded?.secure_url;
       } else {
         videosData.videoUrls = existingHome.videos?.videoUrls;
       }
       updates.videos = videosData;
     }
-    
+
     if (req.body.advance) {
       let advanceData = JSON.parse(req.body.advance);
       if (
@@ -210,9 +208,10 @@ export const updateHomePage = async (req, res) => {
       ) {
         const advanceFilePath = req.files.advanceImage[0].path;
         const uploadResult = await uploadOnCloudinary(advanceFilePath);
-        advanceData.bgImage = uploadResult?.secure_url;
+        const existingAdvance = existingHome.advance?.bgImage || [];
+        advanceData.bgImage = [...existingAdvance, uploadResult?.secure_url];
       } else {
-        advanceData.bgImage = existingHome.advance?.bgImage;
+        advanceData.bgImage = existingHome.advance?.bgImage || [];
       }
       updates.advance = advanceData;
     }
@@ -227,9 +226,10 @@ export const updateHomePage = async (req, res) => {
       ) {
         const toplistFilePath = req.files.toplistImage[0].path;
         const uploadResult = await uploadOnCloudinary(toplistFilePath);
-        toplistData.bgImage = uploadResult?.secure_url;
+        const existingToplist = existingHome.toplist?.bgImage || [];
+        toplistData.bgImage = [...existingToplist, uploadResult?.secure_url];
       } else {
-        toplistData.bgImage = existingHome.toplist?.bgImage;
+        toplistData.bgImage = existingHome.toplist?.bgImage || [];
       }
       updates.toplist = toplistData;
     }
@@ -240,9 +240,10 @@ export const updateHomePage = async (req, res) => {
       if (req.files && req.files.robotImage && req.files.robotImage.length) {
         const robotFilePath = req.files.robotImage[0].path;
         const uploadResult = await uploadOnCloudinary(robotFilePath);
-        robotData.bgImage = uploadResult?.secure_url;
+        const existingRobot = existingHome.robot?.bgImage || [];
+        robotData.bgImage = [...existingRobot, uploadResult?.secure_url];
       } else {
-        robotData.bgImage = existingHome.robot?.bgImage;
+        robotData.bgImage = existingHome.robot?.bgImage || [];
       }
       updates.robot = robotData;
     }
@@ -257,9 +258,13 @@ export const updateHomePage = async (req, res) => {
       ) {
         const competateFilePath = req.files.competateImage[0].path;
         const uploadResult = await uploadOnCloudinary(competateFilePath);
-        competateData.bgImage = uploadResult?.secure_url;
+        const existingCompetate = existingHome.competate?.bgImage || [];
+        competateData.bgImage = [
+          ...existingCompetate,
+          uploadResult?.secure_url,
+        ];
       } else {
-        competateData.bgImage = existingHome.competate?.bgImage;
+        competateData.bgImage = existingHome.competate?.bgImage || [];
       }
       updates.competate = competateData;
     }
@@ -270,31 +275,65 @@ export const updateHomePage = async (req, res) => {
       if (req.files && req.files.runwayImage && req.files.runwayImage.length) {
         const runwayFilePath = req.files.runwayImage[0].path;
         const uploadResult = await uploadOnCloudinary(runwayFilePath);
-        runwayData.bgImage = uploadResult?.secure_url;
+        const existingRunway = existingHome.runway?.bgImage || [];
+        runwayData.bgImage = [...existingRunway, uploadResult?.secure_url];
       } else {
-        runwayData.bgImage = existingHome.runway?.bgImage;
+        runwayData.bgImage = existingHome.runway?.bgImage || [];
       }
       updates.runway = runwayData;
     }
 
-    console.log('Updates object:', updates);
+    console.log("Updates object:", updates);
 
     const updatedHome = await homeSchema.findByIdAndUpdate(
       id,
       { $set: updates },
-      { new: true }
+      { new: true },
     );
 
     return res.status(200).json({
       success: true,
       home: updatedHome,
-      message: 'Home page updated successfully',
+      message: "Home page updated successfully",
     });
   } catch (error) {
-    console.error('Error updating home page:', error);
+    console.error("Error updating home page:", error);
     return res.status(500).json({
       success: false,
-      message: 'Failed to update home page',
+      message: "Failed to update home page",
     });
+  }
+};
+
+export const deleteHomeImage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { section, imageUrl, field } = req.body;
+    const existingHome = await homeSchema.findById(id);
+    if (!existingHome) {
+      return res.status(404).json({ success: false, message: "Not found" });
+    }
+
+    let updateQuery = {};
+
+    if (Array.isArray(existingHome[section]?.[field])) {
+      const updatedArr = existingHome[section][field].filter(
+        (url) => url !== imageUrl,
+      );
+      updateQuery = { [`${section}.${field}`]: updatedArr };
+    } else {
+      updateQuery = { [`${section}.${field}`]: null };
+    }
+
+    const updated = await homeSchema.findByIdAndUpdate(
+      id,
+      { $set: updateQuery },
+      { new: true },
+    );
+
+    return res.status(200).json({ success: true, home: updated });
+  } catch (error) {
+    console.error("Delete image error:", error);
+    return res.status(500).json({ success: false, message: "Delete failed" });
   }
 };
