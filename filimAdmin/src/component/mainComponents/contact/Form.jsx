@@ -117,7 +117,13 @@ const Form = () => {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/form/getform`,
       );
-      setForms(response.data.forms);
+      setForms(
+        [...response.data.forms].sort((a, b) => {
+          if (!a.createdAt) return 1; // a ka createdAt nahi → a ko end mein bhejo
+          if (!b.createdAt) return -1; // b ka createdAt nahi → b ko end mein bhejo
+          return new Date(b.createdAt) - new Date(a.createdAt); // latest pehle
+        }),
+      );
     } catch (err) {
       console.error("Error fetching forms:", err);
       setError("Failed to fetch forms");
