@@ -174,15 +174,17 @@ const Hero = ({
                       {button}
                     </button>
                   ) : (
-                    <div className="flex items-center bg-black border border-white w-64">
+                    <div className="flex items-center bg-black border border-white w-64 max-w-[256px] overflow-hidden flex-shrink-0">
                       <MdEmail className="text-white text-[20px] ml-3 mb-0.5" />
                       <input
                         type="email"
-                        placeholder="Enter your email"
+                        autoComplete="email"
+                        placeholder="Your email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-                        className="bg-transparent text-white placeholder-gray-400 px-3 py-3 outline-none w-full text-[14px]"
+                        style={{ colorScheme: "dark" }}
+                        className="bg-transparent text-white placeholder-gray-400 px-3 py-3 outline-none w-0 flex-1 min-w-0 text-[14px]"
                       />
                       <button
                         onClick={handleSubmit}
@@ -202,20 +204,28 @@ const Hero = ({
           </div>
           <>
             <style>{`
-          .swiper-pagination {
-            bottom: 16px !important;
-          }
-          .swiper-pagination-bullet {
-            width: 14px;
-            height: 14px;
-            background: black;
-            opacity: 1;
-            margin: 0 6px;
-          }
-          .swiper-pagination-bullet-active {
-            background: red !important;
-          }
-        `}</style>
+  .swiper-pagination {
+    bottom: 16px !important;
+  }
+  .swiper-pagination-bullet {
+    width: 14px;
+    height: 14px;
+    background: black;
+    opacity: 1;
+    margin: 0 6px;
+  }
+  .swiper-pagination-bullet-active {
+    background: red !important;
+  }
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px black inset !important;
+    -webkit-text-fill-color: white !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+`}</style>
           </>
         </div>
       </div>

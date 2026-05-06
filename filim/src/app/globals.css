@@ -13,7 +13,7 @@
 }
 body {
   font-family: Fjord One, sans-serif;
-  font-weight: 400;
+  /* font-weight: 400; */
   
 }
 h1,h2,h3,h4,h5,h6{
@@ -58,18 +58,18 @@ h1,h2,h3,h4,h5,h6{
 }
 
 /* Inline styles ko kaam karne do - font weight, style, family sab */
-.ql-editor span {
+/* .ql-editor span {
   font-weight: inherit;
   font-style: inherit;
   font-family: inherit;
-}
+} */
 
 /* Yeh sabse zaroori hai - inline style override fix */
-.ql-editor [style] {
+/* .ql-editor [style] {
   font-weight: unset;
   font-style: unset;
   font-family: unset;
-}
+} */
 
 .ql-editor h1 {
   font-size: 2em;
