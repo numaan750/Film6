@@ -9,14 +9,14 @@ const ServicePageSchema = new mongoose.Schema({
   },
   advance: {
     alt: { type: String },
-    bgImage: { type: String },
+    bgImage: [{ type: String }],
     title: { type: String },
     title2: { type: String },
     description: { type: String },
   },
   toplist: {
     alt: { type: String },
-    bgImage: { type: String },
+    bgImage: [{ type: String }],
     title: { type: String },
     description: { type: String },
     button: { type: String },
@@ -24,7 +24,7 @@ const ServicePageSchema = new mongoose.Schema({
   },
   robot: {
     alt: { type: String },
-    bgImage: { type: String },
+    bgImage: [{ type: String }],
     title: { type: String },
     description: { type: String },
     button: { type: String },
@@ -32,7 +32,7 @@ const ServicePageSchema = new mongoose.Schema({
   },
   competate: {
     alt: { type: String },
-    bgImage: { type: String },
+    bgImage: [{ type: String }],
     title: { type: String },
     description: { type: String },
     button: { type: String },
@@ -40,7 +40,7 @@ const ServicePageSchema = new mongoose.Schema({
   },
   runway: {
     alt: { type: String },
-    bgImage: { type: String },
+    bgImage: [{ type: String }],
     title: { type: String },
     button: { type: String },
     link: { type: String },
@@ -48,5 +48,5 @@ const ServicePageSchema = new mongoose.Schema({
 });
 
 const serviceSchema =
-  mongoose.models.service || mongoose.model('service', ServicePageSchema);
+  mongoose.models.service || mongoose.model("service", ServicePageSchema);
 export default serviceSchema;

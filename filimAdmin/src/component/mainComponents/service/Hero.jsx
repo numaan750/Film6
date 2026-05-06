@@ -66,6 +66,11 @@ const Hero = () => {
   });
 
   const [runwayImage, setRunwayImage] = useState(false);
+  const [oldAdvanceImage, setOldAdvanceImage] = useState([]);
+  const [oldToplistImage, setOldToplistImage] = useState([]);
+  const [oldRobotImage, setOldRobotImage] = useState([]);
+  const [oldCompetateImage, setOldCompetateImage] = useState([]);
+  const [oldRunwayImage, setOldRunwayImage] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -86,23 +91,28 @@ const Hero = () => {
           }
           if (homeData?.advance) {
             setAdvance(homeData.advance);
-            setAdvanceImage(homeData.advance.bgImage);
+            setOldAdvanceImage(homeData.advance.bgImage || []);
+            setAdvanceImage(null);
           }
           if (homeData?.toplist) {
             setToplist(homeData.toplist);
-            setToplistImage(homeData.toplist.bgImage);
+            setOldToplistImage(homeData.toplist.bgImage || []);
+            setToplistImage(null);
           }
           if (homeData?.robot) {
             setRobot(homeData.robot);
-            setRobotImage(homeData.robot.bgImage);
+            setOldRobotImage(homeData.robot.bgImage || []);
+            setRobotImage(null);
           }
           if (homeData?.competate) {
             setCompetate(homeData.competate);
-            setCompetateImage(homeData.competate.bgImage);
+            setOldCompetateImage(homeData.competate.bgImage || []);
+            setCompetateImage(null);
           }
           if (homeData?.runway) {
             setRunway(homeData.runway);
-            setRunwayImage(homeData.runway.bgImage);
+            setOldRunwayImage(homeData.runway.bgImage || []);
+            setRunwayImage(null);
           }
         }
       } catch (error) {
@@ -157,6 +167,19 @@ const Hero = () => {
             },
           },
         );
+        const updatedService = response.data.service;
+        if (updatedService) {
+          setOldAdvanceImage(updatedService.advance?.bgImage || []);
+          setAdvanceImage(null);
+          setOldToplistImage(updatedService.toplist?.bgImage || []);
+          setToplistImage(null);
+          setOldRobotImage(updatedService.robot?.bgImage || []);
+          setRobotImage(null);
+          setOldCompetateImage(updatedService.competate?.bgImage || []);
+          setCompetateImage(null);
+          setOldRunwayImage(updatedService.runway?.bgImage || []);
+          setRunwayImage(null);
+        }
         toast.success("Services data updated successfully!");
         console.log("Response:", response.data);
       } else {
@@ -282,30 +305,50 @@ const Hero = () => {
         setAdvance={setAdvance}
         advanceImage={advanceImage}
         setAdvanceImage={setAdvanceImage}
+        serviceId={serviceId}
+        oldAdvanceImage={oldAdvanceImage}
+        setOldAdvanceImage={setOldAdvanceImage}
+        sectionName="advance"
       />
       <TopListing
         toplist={toplist}
         setToplist={setToplist}
         toplistImage={toplistImage}
         setToplistImage={setToplistImage}
+        serviceId={serviceId}
+        oldToplistImage={oldToplistImage}
+        setOldToplistImage={setOldToplistImage}
+        sectionName="toplist"
       />
       <Robot
         robot={robot}
         setRobot={setRobot}
         robotImage={robotImage}
         setRobotImage={setRobotImage}
+        serviceId={serviceId}
+        oldRobotImage={oldRobotImage}
+        setOldRobotImage={setOldRobotImage}
+        sectionName="robot"
       />
       <Competition
         competate={competate}
         setCompetate={setCompetate}
         competateImage={competateImage}
         setCompetateImage={setCompetateImage}
+        serviceId={serviceId}
+        oldCompetateImage={oldCompetateImage}
+        setOldCompetateImage={setOldCompetateImage}
+        sectionName="competate"
       />
       <Runway
         runway={runway}
         setRunway={setRunway}
         runwayImage={runwayImage}
         setRunwayImage={setRunwayImage}
+        serviceId={serviceId}
+        oldRunwayImage={oldRunwayImage}
+        setOldRunwayImage={setOldRunwayImage}
+        sectionName="runway"
       />
       <div className="flex justify-end mt-8 mb-8">
         <button

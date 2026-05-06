@@ -1,5 +1,5 @@
-import serviceSchema from '../modles/service.js';
-import { uploadOnCloudinary } from '../utils/cloudinary.js';
+import serviceSchema from "../modles/service.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 export const createServicePage = async (req, res) => {
   try {
@@ -18,14 +18,14 @@ export const createServicePage = async (req, res) => {
     let competateImage = req.files?.competateImage[0]?.path;
     let runwayImage = req.files?.runwayImage[0]?.path;
 
-    console.log(req.files.heroImage, 'heroImage');
+    console.log(req.files.heroImage, "heroImage");
 
     if (heroVideoPath) {
       heroVideoPath = await uploadOnCloudinary(heroVideoPath, {
-        resource_type: 'video',
+        resource_type: "video",
       });
     }
-    console.log(heroVideoPath, 'cloud hero');
+    console.log(heroVideoPath, "cloud hero");
 
     if (advanceImage) {
       advanceImage = await uploadOnCloudinary(advanceImage);
@@ -98,40 +98,35 @@ export const createServicePage = async (req, res) => {
     res.status(200).json({
       success: true,
       service,
-      message: 'service page uploaded successfully',
+      message: "service page uploaded successfully",
     });
   } catch (error) {
-    console.error('Error fetching service:', error);
+    console.error("Error fetching service:", error);
     return res
       .status(500)
-      .json({ success: false, error: 'Failed to fetch service' });
+      .json({ success: false, error: "Failed to fetch service" });
   }
 };
 
 export const createGetService = async (req, res) => {
   try {
     const services = await serviceSchema.find({});
-    console.log(services, 'home');
+    console.log(services, "home");
 
     res.status(200).json({
       success: true,
       services,
-      message: 'service page get successfully',
+      message: "service page get successfully",
     });
   } catch (error) {
-    console.error('Error fetching service:', error);
+    console.error("Error fetching service:", error);
     return res
       .status(500)
-      .json({ success: false, error: 'Failed to fetch service' });
+      .json({ success: false, error: "Failed to fetch service" });
   }
 };
 
-
-
-
-// update 
-
-
+// update
 
 export const updateServicePage = async (req, res) => {
   try {
@@ -140,12 +135,12 @@ export const updateServicePage = async (req, res) => {
     if (!existingService) {
       return res.status(404).json({
         success: false,
-        message: 'Service page not found',
+        message: "Service page not found",
       });
     }
 
     const updates = {};
-    console.log('Raw req.body:', req.body);
+    console.log("Raw req.body:", req.body);
 
     // Update Hero section if provided
     if (req.body.hero) {
@@ -153,7 +148,7 @@ export const updateServicePage = async (req, res) => {
       if (req.files && req.files.heroImage && req.files.heroImage.length) {
         const heroFilePath = req.files.heroImage[0].path;
         const uploadResult = await uploadOnCloudinary(heroFilePath, {
-          resource_type: 'video',
+          resource_type: "video",
         });
         heroData.bgImage = uploadResult?.secure_url;
       } else {
@@ -173,14 +168,18 @@ export const updateServicePage = async (req, res) => {
       ) {
         const advanceFilePath = req.files.advanceImage[0].path;
         const uploadResult = await uploadOnCloudinary(advanceFilePath);
-        advanceData.bgImage = uploadResult?.secure_url;
+        advanceData.bgImage = uploadResult?.secure_url
+          ? [
+              ...(existingService.advance?.bgImage || []),
+              uploadResult.secure_url,
+            ]
+          : existingService.advance?.bgImage || [];
       } else {
-        advanceData.bgImage = existingService.advance?.bgImage;
+        advanceData.bgImage = existingService.advance?.bgImage || [];
       }
       updates.advance = advanceData;
     }
 
-    // Update Toplist section if provided
     if (req.body.toplist) {
       let toplistData = JSON.parse(req.body.toplist);
       if (
@@ -190,9 +189,15 @@ export const updateServicePage = async (req, res) => {
       ) {
         const toplistFilePath = req.files.toplistImage[0].path;
         const uploadResult = await uploadOnCloudinary(toplistFilePath);
-        toplistData.bgImage = uploadResult?.secure_url;
+        // NAYA:
+        toplistData.bgImage = uploadResult?.secure_url
+          ? [
+              ...(existingService.toplist?.bgImage || []),
+              uploadResult.secure_url,
+            ]
+          : existingService.toplist?.bgImage || [];
       } else {
-        toplistData.bgImage = existingService.toplist?.bgImage;
+        toplistData.bgImage = existingService.toplist?.bgImage || [];
       }
       updates.toplist = toplistData;
     }
@@ -203,9 +208,12 @@ export const updateServicePage = async (req, res) => {
       if (req.files && req.files.robotImage && req.files.robotImage.length) {
         const robotFilePath = req.files.robotImage[0].path;
         const uploadResult = await uploadOnCloudinary(robotFilePath);
-        robotData.bgImage = uploadResult?.secure_url;
+        // NAYA:
+        robotData.bgImage = uploadResult?.secure_url
+          ? [...(existingService.robot?.bgImage || []), uploadResult.secure_url]
+          : existingService.robot?.bgImage || [];
       } else {
-        robotData.bgImage = existingService.robot?.bgImage;
+        robotData.bgImage = existingService.robot?.bgImage || [];
       }
       updates.robot = robotData;
     }
@@ -220,9 +228,15 @@ export const updateServicePage = async (req, res) => {
       ) {
         const competateFilePath = req.files.competateImage[0].path;
         const uploadResult = await uploadOnCloudinary(competateFilePath);
-        competateData.bgImage = uploadResult?.secure_url;
+        // NAYA:
+        competateData.bgImage = uploadResult?.secure_url
+          ? [
+              ...(existingService.competate?.bgImage || []),
+              uploadResult.secure_url,
+            ]
+          : existingService.competate?.bgImage || [];
       } else {
-        competateData.bgImage = existingService.competate?.bgImage;
+        competateData.bgImage = existingService.competate?.bgImage || [];
       }
       updates.competate = competateData;
     }
@@ -233,31 +247,71 @@ export const updateServicePage = async (req, res) => {
       if (req.files && req.files.runwayImage && req.files.runwayImage.length) {
         const runwayFilePath = req.files.runwayImage[0].path;
         const uploadResult = await uploadOnCloudinary(runwayFilePath);
-        runwayData.bgImage = uploadResult?.secure_url;
+        // NAYA:
+        runwayData.bgImage = uploadResult?.secure_url
+          ? [
+              ...(existingService.runway?.bgImage || []),
+              uploadResult.secure_url,
+            ]
+          : existingService.runway?.bgImage || [];
       } else {
-        runwayData.bgImage = existingService.runway?.bgImage;
+        runwayData.bgImage = existingService.runway?.bgImage || [];
       }
       updates.runway = runwayData;
     }
 
-    console.log('Updates object:', updates);
+    console.log("Updates object:", updates);
 
     const updatedService = await serviceSchema.findByIdAndUpdate(
       id,
       { $set: updates },
-      { new: true }
+      { new: true },
     );
 
     return res.status(200).json({
       success: true,
       service: updatedService,
-      message: 'Service page updated successfully',
+      message: "Service page updated successfully",
     });
   } catch (error) {
-    console.error('Error updating service page:', error);
+    console.error("Error updating service page:", error);
     return res.status(500).json({
       success: false,
-      message: 'Failed to update service page',
+      message: "Failed to update service page",
     });
+  }
+};
+
+export const deleteServiceImage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { section, imageUrl, field } = req.body;
+
+    const existingService = await serviceSchema.findById(id);
+    if (!existingService) {
+      return res.status(404).json({ success: false, message: "Not found" });
+    }
+
+    let updateQuery = {};
+
+    if (Array.isArray(existingService[section]?.[field])) {
+      const updatedArr = existingService[section][field].filter(
+        (url) => url !== imageUrl,
+      );
+      updateQuery = { [`${section}.${field}`]: updatedArr };
+    } else {
+      updateQuery = { [`${section}.${field}`]: null };
+    }
+
+    const updated = await serviceSchema.findByIdAndUpdate(
+      id,
+      { $set: updateQuery },
+      { new: true },
+    );
+
+    return res.status(200).json({ success: true, service: updated });
+  } catch (error) {
+    console.error("Delete image error:", error);
+    return res.status(500).json({ success: false, message: "Delete failed" });
   }
 };

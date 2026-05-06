@@ -1,17 +1,19 @@
 "use client";
 import { validateFile } from "@/utils/fileValidation";
 import React from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Competition = ({
   competate,
   setCompetate,
   competateImage,
   setCompetateImage,
+  serviceId,
+  oldCompetateImage,
+  setOldCompetateImage,
+  sectionName,
 }) => {
-  /*************  ✨ Codeium Command ⭐  *************/
-  /**
-
-/******  7553bbda-0435-421d-ac27-107c81715122  *******/
   const onChangeHandler = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -65,18 +67,60 @@ const Competition = ({
               className="hidden"
             />
           </div>
-          {/* Image Preview */}
           {competateImage && (
             <div className="mt-4">
+              <h2 className="text-sm font-semibold text-green-600 mb-1">
+                uploaded image
+              </h2>
               <img
                 src={
-                  typeof competateImage === "string"
-                    ? competateImage
-                    : URL.createObjectURL(competateImage)
+                  competateImage instanceof File
+                    ? URL.createObjectURL(competateImage)
+                    : competateImage
                 }
                 alt="Preview"
                 className="w-36 h-auto"
               />
+            </div>
+          )}
+          {oldCompetateImage && oldCompetateImage.length > 0 && (
+            <div className="mt-4">
+              <h2 className="text-sm font-semibold text-gray-500 mb-1">
+                OLD IMAGES
+              </h2>
+              <div className="flex gap-2 flex-wrap">
+                {[...oldCompetateImage].reverse().map((url, index) => (
+                  <div key={index} className="relative w-36">
+                    <img src={url} alt="Old" className="w-36 h-auto" />
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        try {
+                          await axios.delete(
+                            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/service/deleteimage/${serviceId}`,
+                            {
+                              data: {
+                                section: sectionName,
+                                field: "bgImage",
+                                imageUrl: url,
+                              },
+                            },
+                          );
+                          setOldCompetateImage((prev) =>
+                            prev.filter((u) => u !== url),
+                          );
+                          toast.success("Image deleted!");
+                        } catch {
+                          toast.error("Delete failed!");
+                        }
+                      }}
+                      className="absolute top-0 right-0 bg-red-500 text-white text-xs px-2 py-1"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 

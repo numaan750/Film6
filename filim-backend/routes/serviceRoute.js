@@ -1,56 +1,61 @@
-import express from 'express';
-import upload from '../middlewere/multer.js';
-import { createGetService, createServicePage, updateServicePage } from '../controllers/serviceController.js';
-import validateFileSize from '../middlewere/validateFileSize.js';
-
+import express from "express";
+import upload from "../middlewere/multer.js";
+import {
+  createGetService,
+  createServicePage,
+  deleteServiceImage,
+  updateServicePage,
+} from "../controllers/serviceController.js";
+import validateFileSize from "../middlewere/validateFileSize.js";
 
 const serviceRoute = express.Router();
 
-serviceRoute.get('/getservice', createGetService);
+serviceRoute.get("/getservice", createGetService);
 serviceRoute.put(
-  '/updateservice/:id',
+  "/updateservice/:id",
   upload.fields([
-    { name: 'heroImage', maxCount: 1 },
-    { name: 'advanceImage', maxCount: 1 },
-    { name: 'toplistImage', maxCount: 1 },
-    { name: 'robotImage', maxCount: 1 },
-    { name: 'competateImage', maxCount: 1 },
-    { name: 'runwayImage', maxCount: 1 },
+    { name: "heroImage", maxCount: 1 },
+    { name: "advanceImage", maxCount: 1 },
+    { name: "toplistImage", maxCount: 1 },
+    { name: "robotImage", maxCount: 1 },
+    { name: "competateImage", maxCount: 1 },
+    { name: "runwayImage", maxCount: 1 },
   ]),
-    validateFileSize,
-  updateServicePage
+  validateFileSize,
+  updateServicePage,
 );
 
 serviceRoute.post(
-  '/serviceRoute',
+  "/serviceRoute",
   upload.fields([
     {
-      name: 'heroImage',
+      name: "heroImage",
       maxCount: 1,
     },
     {
-      name: 'advanceImage',
+      name: "advanceImage",
       maxCount: 1,
     },
     {
-      name: 'toplistImage',
+      name: "toplistImage",
       maxCount: 1,
     },
     {
-      name: 'robotImage',
+      name: "robotImage",
       maxCount: 1,
     },
     {
-      name: 'competateImage',
+      name: "competateImage",
       maxCount: 1,
     },
     {
-      name: 'runwayImage',
+      name: "runwayImage",
       maxCount: 1,
     },
   ]),
-    validateFileSize,
-  createServicePage
+  validateFileSize,
+  createServicePage,
 );
 
+serviceRoute.delete("/deleteimage/:id", deleteServiceImage);
 export default serviceRoute;
