@@ -392,9 +392,9 @@ export const updateStudioPage = async (req, res) => {
     const updatedHero = {
       title: hero1.title,
       bgImage:
-        uploadedVideos.length > 0
-          ? uploadedVideos.map((v) => v.secure_url)
-          : currentStudio.hero.bgImage,
+  uploadedVideos.length > 0
+    ? [...(currentStudio.hero.bgImage || []), ...uploadedVideos.map((v) => v.secure_url)]
+    : currentStudio.hero.bgImage || [],
 
       alt: hero1.alt,
       description: hero1.description,
@@ -438,16 +438,18 @@ export const updateStudioPage = async (req, res) => {
     };
 
     const updatedToplist = {
-      alt: topList1.alt,
-      title: topList1.title,
-      genre: topList1.genre,
-      line: topList1.line,
-      description: topList1.description,
-      description2: topList1.description2,
-      button: topList1.button,
-      bgImage: toplistImage?.secure_url || currentStudio.toplist.bgImage,
-      link: topList1.link,
-    };
+  alt: topList1.alt,
+  title: topList1.title,
+  genre: topList1.genre,
+  line: topList1.line,
+  description: topList1.description,
+  description2: topList1.description2,
+  button: topList1.button,
+  bgImage: toplistImage?.secure_url
+    ? [...(currentStudio.toplist.bgImage || []), toplistImage.secure_url]
+    : currentStudio.toplist.bgImage || [],
+  link: topList1.link,
+};
 
     const updatedToplist2 = {
       alt: toplisted.alt,
@@ -457,7 +459,9 @@ export const updateStudioPage = async (req, res) => {
       description: toplisted.description,
       description2: toplisted.description2,
       button: toplisted.button,
-      bgImage: toplistImage2?.secure_url || currentStudio.toplist2.bgImage,
+      bgImage: toplistImage2?.secure_url
+  ? [...(currentStudio.toplist2.bgImage || []), toplistImage2.secure_url]
+  : currentStudio.toplist2.bgImage || [],
       link: toplisted.link,
     };
 
@@ -468,8 +472,9 @@ export const updateStudioPage = async (req, res) => {
       description: competate1.description,
       description2: competate1.description2,
       button: competate1.button,
-      bgImage: competateImage?.secure_url || currentStudio.competate.bgImage,
-      link: competate1.link,
+      bgImage: competateImage?.secure_url
+  ? [...(currentStudio.competate.bgImage || []), competateImage.secure_url]
+  : currentStudio.competate.bgImage || [],      link: competate1.link,
     };
 
     const updatedCompetate2 = {
@@ -479,8 +484,9 @@ export const updateStudioPage = async (req, res) => {
       description: competated.description,
       description2: competated.description2,
       button: competated.button,
-      bgImage: competateImage2?.secure_url || currentStudio.competate2.bgImage,
-      link: competated.link,
+      bgImage: competateImage2?.secure_url
+  ? [...(currentStudio.competate2.bgImage || []), competateImage2.secure_url]
+  : currentStudio.competate2.bgImage || [],      link: competated.link,
     };
     const updatedToplist3 = {
       alt: topList3.alt,
@@ -490,8 +496,9 @@ export const updateStudioPage = async (req, res) => {
       description: topList3.description,
       description2: topList3.description2,
       button: topList3.button,
-      bgImage: toplistImage3?.secure_url || currentStudio.toplist3.bgImage,
-      link: topList3.link,
+      bgImage: toplistImage3?.secure_url
+  ? [...(currentStudio.toplist3.bgImage || []), toplistImage3.secure_url]
+  : currentStudio.toplist3.bgImage || [],      link: topList3.link,
     };
 
     const updatedCompetate3 = {
@@ -501,8 +508,9 @@ export const updateStudioPage = async (req, res) => {
       description: competated3.description,
       description2: competated3.description2,
       button: competated3.button,
-      bgImage: competateImage3?.secure_url || currentStudio.competate3.bgImage,
-      link: competated3.link,
+      bgImage: competateImage3?.secure_url
+  ? [...(currentStudio.competate3.bgImage || []), competateImage3.secure_url]
+  : currentStudio.competate3.bgImage || [],      link: competated3.link,
     };
     const updateData = {
       hero: updatedHero,
@@ -536,5 +544,40 @@ export const updateStudioPage = async (req, res) => {
     return res
       .status(500)
       .json({ success: false, error: "Failed to update studio" });
+  }
+};
+
+
+export const deleteStudioImage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { section, imageUrl, field } = req.body;
+
+    const existingStudio = await studioSchema.findById(id);
+    if (!existingStudio) {
+      return res.status(404).json({ success: false, message: "Not found" });
+    }
+
+    let updateQuery = {};
+
+    if (Array.isArray(existingStudio[section]?.[field])) {
+      const updatedArr = existingStudio[section][field].filter(
+        (url) => url !== imageUrl
+      );
+      updateQuery = { [`${section}.${field}`]: updatedArr };
+    } else {
+      updateQuery = { [`${section}.${field}`]: null };
+    }
+
+    const updated = await studioSchema.findByIdAndUpdate(
+      id,
+      { $set: updateQuery },
+      { new: true }
+    );
+
+    return res.status(200).json({ success: true, studio: updated });
+  } catch (error) {
+    console.error("Delete image error:", error);
+    return res.status(500).json({ success: false, message: "Delete failed" });
   }
 };

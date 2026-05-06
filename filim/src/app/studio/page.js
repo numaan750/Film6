@@ -161,7 +161,7 @@ const page = () => {
       <TopListing
         title={toplist?.title}
         description={toplist?.description}
-        image={toplist?.bgImage}
+        image={Array.isArray(toplist?.bgImage) && toplist.bgImage.length > 0 ? toplist.bgImage[toplist.bgImage.length - 1] : toplist?.bgImage}
         button={toplist?.button}
         genere={toplist?.genre}
         line={toplist?.line}
@@ -175,7 +175,7 @@ const page = () => {
         <TopListing
           title={robot?.title}
           description={robot?.description}
-          image={robot?.bgImage}
+          image={Array.isArray(robot?.bgImage) && robot.bgImage.length > 0 ? robot.bgImage[robot.bgImage.length - 1] : robot?.bgImage}
           button={robot?.button}
           genere={robot?.genre}
           description2={robot?.description2}
@@ -190,7 +190,7 @@ const page = () => {
         <TopListing
           title={competate?.title}
           description={competate?.description}
-          image={competate?.bgImage}
+          image={Array.isArray(competate?.bgImage) && competate.bgImage.length > 0 ? competate.bgImage[competate.bgImage.length - 1] : competate?.bgImage}
           button={competate?.button}
           genere={competate?.genre}
           line={competate?.line}
@@ -206,7 +206,7 @@ const page = () => {
         <TopListing
           title={runway?.title}
           description={runway?.description}
-          image={runway?.bgImage}
+          image={Array.isArray(runway?.bgImage) && runway.bgImage.length > 0 ? runway.bgImage[runway.bgImage.length - 1] : runway?.bgImage}
           button={runway?.button}
           genere={runway?.genre}
           description2={runway?.description2}
@@ -221,7 +221,7 @@ const page = () => {
         <TopListing
           title={toplist3?.title}
           description={toplist3?.description}
-          image={toplist3?.bgImage}
+          image={Array.isArray(toplist3?.bgImage) && toplist3.bgImage.length > 0 ? toplist3.bgImage[toplist3.bgImage.length - 1] : toplist3?.bgImage}
           button={toplist3?.button}
           genere={toplist3?.genre}
           line={toplist3?.line}
@@ -236,7 +236,7 @@ const page = () => {
         <TopListing
           title={competate3?.title}
           description={competate3?.description}
-          image={competate3?.bgImage}
+          image={Array.isArray(competate3?.bgImage) && competate3.bgImage.length > 0 ? competate3.bgImage[competate3.bgImage.length - 1] : competate3?.bgImage}
           button={competate3?.button}
           genere={competate3?.genre}
           description2={competate3?.description2}

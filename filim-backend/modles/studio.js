@@ -46,7 +46,7 @@ const StudioPageSchema = new mongoose.Schema({
   },
   toplist: {
     alt: { type: String },
-    bgImage: { type: String },
+     bgImage: [{ type: String }],
     title: { type: String },
     genre: { type: String },
     line: { type: String },
@@ -58,7 +58,7 @@ const StudioPageSchema = new mongoose.Schema({
 
   competate: {
     alt: { type: String },
-    bgImage: { type: String },
+    bgImage: [{ type: String }],
     title: { type: String },
     genre: { type: String },
     description: { type: String },
@@ -68,7 +68,7 @@ const StudioPageSchema = new mongoose.Schema({
   },
   toplist2: {
     alt: { type: String },
-    bgImage: { type: String },
+    bgImage: [{ type: String }],
     title: { type: String },
     genre: { type: String },
     line: { type: String },
@@ -79,7 +79,7 @@ const StudioPageSchema = new mongoose.Schema({
   },
   competate2: {
     alt: { type: String },
-    bgImage: { type: String },
+     bgImage: [{ type: String }],
     title: { type: String },
     genre: { type: String },
     description: { type: String },
@@ -89,7 +89,7 @@ const StudioPageSchema = new mongoose.Schema({
   },
   toplist3: {
     alt: { type: String },
-    bgImage: { type: String },
+    bgImage: [{ type: String }],
     title: { type: String },
     genre: { type: String },
     line: { type: String },
@@ -100,7 +100,7 @@ const StudioPageSchema = new mongoose.Schema({
   },
   competate3: {
     alt: { type: String },
-    bgImage: { type: String },
+    bgImage: [{ type: String }],
     title: { type: String },
     genre: { type: String },
     description: { type: String },

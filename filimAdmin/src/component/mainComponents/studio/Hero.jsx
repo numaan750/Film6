@@ -113,6 +113,14 @@ const Hero = () => {
 
   const [toplist3Image, setToplist3Image] = useState(false);
   const [description, setDescription] = useState("");
+  const [oldVideo, setOldVideo] = useState(null);
+  const [oldHeroImages, setOldHeroImages] = useState([]);
+const [oldToplistImage, setOldToplistImage] = useState([]);
+const [oldRobotImage, setOldRobotImage] = useState([]);
+const [oldCompetateImage, setOldCompetateImage] = useState([]);
+const [oldRunwayImage, setOldRunwayImage] = useState([]);
+const [oldToplist3Image, setOldToplist3Image] = useState([]);
+const [oldCompetateImage3, setOldCompetateImage3] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -124,11 +132,12 @@ const Hero = () => {
           setStudioId(homeData._id);
 
           if (homeData.hero) {
-            setTitle(homeData.hero.title || "");
-            setDescription(homeData.hero.description || "");
-            setAlt(homeData.hero.alt || "");
-            setImage(homeData.hero.bgImage || []);
-          }
+  setTitle(homeData.hero.title || "");
+  setDescription(homeData.hero.description || "");
+  setAlt(homeData.hero.alt || "");
+  setOldHeroImages(homeData.hero.bgImage || []);
+  setImage([]);
+}
 
           if (homeData.advance) {
             setAdvance(homeData.advance);
@@ -152,29 +161,35 @@ const Hero = () => {
           setCard6(homeData.card6 || { description: "" });
           setCard6Image(homeData.card6?.catogryImage || false);
           if (homeData.toplist) {
-            setToplist(homeData.toplist);
-            setToplistImage(homeData.toplist.bgImage || null);
-          }
+  setToplist(homeData.toplist);
+  setOldToplistImage(homeData.toplist.bgImage || []);
+  setToplistImage(null);
+}
           if (homeData.competate) {
-            setRobot(homeData.competate);
-            setRobotImage(homeData.competate.bgImage || null);
-          }
+  setRobot(homeData.competate);
+  setOldRobotImage(homeData.competate.bgImage || []);
+  setRobotImage(null);
+}
           if (homeData.toplist2) {
-            setCompetate(homeData.toplist2);
-            setCompetateImage(homeData.toplist2.bgImage || null);
-          }
+  setCompetate(homeData.toplist2);
+  setOldCompetateImage(homeData.toplist2.bgImage || []);
+  setCompetateImage(null);
+}
           if (homeData.competate2) {
-            setRunway(homeData.competate2);
-            setRunwayImage(homeData.competate2.bgImage || null);
-          }
+  setRunway(homeData.competate2);
+  setOldRunwayImage(homeData.competate2.bgImage || []);
+  setRunwayImage(null);
+}
           if (homeData.toplist3) {
-            setToplist3(homeData.toplist3);
-            setToplist3Image(homeData.toplist3.bgImage || null);
-          }
+  setToplist3(homeData.toplist3);
+  setOldToplist3Image(homeData.toplist3.bgImage || []);
+  setToplist3Image(null);
+}
           if (homeData.competate3) {
-            setCompetate3(homeData.competate3);
-            setCompetateImage3(homeData.competate3.bgImage || null);
-          }
+  setCompetate3(homeData.competate3);
+  setOldCompetateImage3(homeData.competate3.bgImage || []);
+  setCompetateImage3(null);
+}
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -225,12 +240,13 @@ const Hero = () => {
       formData.append("toplist3", JSON.stringify(toplist3));
       formData.append("competate3", JSON.stringify(competate3));
 
-      if (Array.isArray(image)) {
-        image.forEach((file) => {
-          console.log("Appending file to FormData:", file.name);
-          formData.append("heroImage", file);
-        });
-      }
+      if (Array.isArray(image) && image.length > 0) {
+  image.forEach((file) => {
+    if (file instanceof File) {
+      formData.append("heroImage", file);
+    }
+  });
+}
       if (card1Image) formData.append("card1Image", card1Image);
       if (card2Image) formData.append("card2Image", card2Image);
       if (card3Image) formData.append("card3Image", card3Image);
@@ -328,6 +344,23 @@ const Hero = () => {
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/studio/updateStudio/${studioId}`,
         formData,
       );
+      const updatedStudio = response.data.studio;
+if (updatedStudio) {
+  setOldHeroImages(updatedStudio.hero?.bgImage || []);
+  setImage([]);
+  setOldToplistImage(updatedStudio.toplist?.bgImage || []);
+  setToplistImage(null);
+  setOldRobotImage(updatedStudio.competate?.bgImage || []);
+  setRobotImage(null);
+  setOldCompetateImage(updatedStudio.toplist2?.bgImage || []);
+  setCompetateImage(null);
+  setOldRunwayImage(updatedStudio.competate2?.bgImage || []);
+  setRunwayImage(null);
+  setOldToplist3Image(updatedStudio.toplist3?.bgImage || []);
+  setToplist3Image(null);
+  setOldCompetateImage3(updatedStudio.competate3?.bgImage || []);
+  setCompetateImage3(null);
+}
       toast.success("Studio page updated successfully!");
       console.log("Update Response:", response.data);
     } catch (error) {
@@ -377,8 +410,10 @@ const Hero = () => {
                     return;
                   }
                 }
-                setImage(files);
-              }}
+setImage((prev) => {
+  const prevArr = Array.isArray(prev) ? prev : [];
+  return [...prevArr, ...files];
+});              }}
               id="upload2"
               type="file"
               accept="video/*"
@@ -386,24 +421,53 @@ const Hero = () => {
               className="hidden"
             />
           </div>
-          {/* Video Preview */}
-          {Array.isArray(image) && image.length > 0 && (
-            <div className="mt-4 flex gap-4 flex-wrap">
-              {image.map((item, index) => (
-                <div key={index} className="relative -z-30">
-                  <video
-                    src={
-                      typeof item === "string"
-                        ? item
-                        : URL.createObjectURL(item)
-                    }
-                    controls
-                    className="w-36 h-auto"
-                  />
-                </div>
-              ))}
-            </div>
-          )}
+          {/* NEW VIDEOS — UPAR */}
+{Array.isArray(image) && image.length > 0 && (
+  <div className="mt-4">
+    <h2 className="text-sm font-semibold text-green-600 mb-2">NEW VIDEOS (Upload hone wale)</h2>
+    <div className="flex gap-4 flex-wrap">
+      {image.map((item, index) => (
+        <div key={index} className="relative">
+          <video
+            src={item instanceof File ? URL.createObjectURL(item) : item}
+            controls
+            className="w-36 h-auto"
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
+{/* OLD VIDEOS — NEECHE */}
+{oldHeroImages.length > 0 && (
+  <div className="mt-4">
+    <h2 className="text-sm font-semibold text-gray-500 mb-2">OLD VIDEOS</h2>
+    <div className="flex gap-4 flex-wrap">
+      {[...oldHeroImages].reverse().map((url, index) => (
+        <div key={index} className="relative">
+          <video src={url} controls className="w-36 h-auto" />
+          <button
+            type="button"
+            onClick={async () => {
+              try {
+                await axios.delete(
+                  `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/studio/deleteimage/${studioId}`,
+                  { data: { section: "hero", field: "bgImage", imageUrl: url } }
+                );
+                setOldHeroImages((prev) => prev.filter((u) => u !== url));
+                toast.success("Video deleted!");
+              } catch {
+                toast.error("Delete failed!");
+              }
+            }}
+            className="absolute top-0 right-0 bg-red-500 text-white text-xs px-2 py-1 z-10"
+          >✕</button>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
           <div className="mt-8">
             <div className="mb-4">
               <h1 className="text-black">ALT TEXT</h1>
@@ -467,41 +531,66 @@ const Hero = () => {
         setCard6Image={setCard6Image}
       />
       <TopListing
-        toplist={toplist}
-        setToplist={setToplist}
-        toplistImage={toplistImage}
-        setToplistImage={setToplistImage}
-      />
+  toplist={toplist}
+  setToplist={setToplist}
+  toplistImage={toplistImage}
+  setToplistImage={setToplistImage}
+  studioId={studioId}
+  oldToplistImage={oldToplistImage}
+  setOldToplistImage={setOldToplistImage}
+  sectionName="toplist"
+/>
+
       <Robot
-        robot={robot}
-        setRobot={setRobot}
-        robotImage={robotImage}
-        setRobotImage={setRobotImage}
-      />
+  robot={robot}
+  setRobot={setRobot}
+  robotImage={robotImage}
+  setRobotImage={setRobotImage}
+  studioId={studioId}
+  oldRobotImage={oldRobotImage}
+  setOldRobotImage={setOldRobotImage}
+  sectionName="competate"
+/>
       <Competition
-        competate={competate}
-        setCompetate={setCompetate}
-        competateImage={competateImage}
-        setCompetateImage={setCompetateImage}
-      />
+  competate={competate}
+  setCompetate={setCompetate}
+  competateImage={competateImage}
+  setCompetateImage={setCompetateImage}
+  studioId={studioId}
+  oldCompetateImage={oldCompetateImage}
+  setOldCompetateImage={setOldCompetateImage}
+  sectionName="toplist2"
+/>
       <Runway
-        runway={runway}
-        setRunway={setRunway}
-        runwayImage={runwayImage}
-        setRunwayImage={setRunwayImage}
-      />
+  runway={runway}
+  setRunway={setRunway}
+  runwayImage={runwayImage}
+  setRunwayImage={setRunwayImage}
+  studioId={studioId}
+  oldRunwayImage={oldRunwayImage}
+  setOldRunwayImage={setOldRunwayImage}
+  sectionName="competate2"
+/>
       <TopList2
-        toplist3={toplist3}
-        setToplist3={setToplist3}
-        toplist3Image={toplist3Image}
-        setToplist3Image={setToplist3Image}
-      />
+  toplist3={toplist3}
+  setToplist3={setToplist3}
+  toplist3Image={toplist3Image}
+  setToplist3Image={setToplist3Image}
+  studioId={studioId}
+  oldToplist3Image={oldToplist3Image}
+  setOldToplist3Image={setOldToplist3Image}
+  sectionName="toplist3"
+/>
       <Competate3
-        competate3={competate3}
-        setCompetate3={setCompetate3}
-        competateImage3={competateImage3}
-        setCompetateImage3={setCompetateImage3}
-      />
+  competate3={competate3}
+  setCompetate3={setCompetate3}
+  competateImage3={competateImage3}
+  setCompetateImage3={setCompetateImage3}
+  studioId={studioId}
+  oldCompetateImage3={oldCompetateImage3}
+  setOldCompetateImage3={setOldCompetateImage3}
+  sectionName="competate3"
+/>
       <div className="flex justify-end mt-8 mb-8">
         {studioId ? (
           <button

@@ -5,6 +5,7 @@ import upload from '../middlewere/multer.js';
 import {
   createGetStudio,
   createStudioPage,
+  deleteStudioImage,
   updateStudioPage,
 } from '../controllers/studioController.js';
 import validateFileSize from '../middlewere/validateFileSize.js';
@@ -54,5 +55,6 @@ studioRoute.put(
     validateFileSize,
   updateStudioPage
 );
+studioRoute.delete('/deleteimage/:id', deleteStudioImage);
 
 export default studioRoute;
