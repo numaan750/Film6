@@ -76,6 +76,11 @@ const Hero = () => {
   });
 
   const [runwayImage, setRunwayImage] = useState(false);
+  const [oldAdvanceImage, setOldAdvanceImage] = useState([]);
+  const [oldToplistImage, setOldToplistImage] = useState([]);
+  const [oldRobotImage, setOldRobotImage] = useState([]);
+  const [oldCompetateImage, setOldCompetateImage] = useState([]);
+  const [oldRunwayImage, setOldRunwayImage] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -96,23 +101,28 @@ const Hero = () => {
           }
           if (homeData?.advance) {
             setAdvance(homeData.advance);
-            setAdvanceImage(homeData.advance.bgImage);
+            setOldAdvanceImage(homeData.advance.bgImage || []);
+            setAdvanceImage(null);
           }
           if (homeData?.toplist) {
             setToplist(homeData.toplist);
-            setToplistImage(homeData.toplist.bgImage);
+            setOldToplistImage(homeData.toplist.bgImage || []);
+            setToplistImage(null);
           }
           if (homeData?.robot) {
             setRobot(homeData.robot);
-            setRobotImage(homeData.robot.bgImage);
+            setOldRobotImage(homeData.robot.bgImage || []);
+            setRobotImage(null);
           }
           if (homeData?.competate) {
             setCompetate(homeData.competate);
-            setCompetateImage(homeData.competate.bgImage);
+            setOldCompetateImage(homeData.competate.bgImage || []);
+            setCompetateImage(null);
           }
           if (homeData?.runway) {
             setRunway(homeData.runway);
-            setRunwayImage(homeData.runway.bgImage);
+            setOldRunwayImage(homeData.runway.bgImage || []);
+            setRunwayImage(null);
           }
           if (homeData?.cardSection) {
             setMainTitle(homeData.cardSection?.mainTitle || "");
@@ -195,6 +205,19 @@ const Hero = () => {
             },
           },
         );
+        const updatedFestivalData = response.data.festival;
+        if (updatedFestivalData) {
+          setOldAdvanceImage(updatedFestivalData.advance?.bgImage || []);
+          setAdvanceImage(null);
+          setOldToplistImage(updatedFestivalData.toplist?.bgImage || []);
+          setToplistImage(null);
+          setOldRobotImage(updatedFestivalData.robot?.bgImage || []);
+          setRobotImage(null);
+          setOldCompetateImage(updatedFestivalData.competate?.bgImage || []);
+          setCompetateImage(null);
+          setOldRunwayImage(updatedFestivalData.runway?.bgImage || []);
+          setRunwayImage(null);
+        }
         toast.success("Festival data updated successfully!");
         console.log("Response:", response.data);
       } else {
@@ -320,24 +343,40 @@ const Hero = () => {
         setAdvance={setAdvance}
         advanceImage={advanceImage}
         setAdvanceImage={setAdvanceImage}
+        festivalId={festivalId}
+        oldAdvanceImage={oldAdvanceImage}
+        setOldAdvanceImage={setOldAdvanceImage}
+        sectionName="advance"
       />
       <TopListing
         toplist={toplist}
         setToplist={setToplist}
         toplistImage={toplistImage}
         setToplistImage={setToplistImage}
+        festivalId={festivalId}
+        oldToplistImage={oldToplistImage}
+        setOldToplistImage={setOldToplistImage}
+        sectionName="toplist"
       />
       <Robot
         robot={robot}
         setRobot={setRobot}
         robotImage={robotImage}
         setRobotImage={setRobotImage}
+        festivalId={festivalId}
+        oldRobotImage={oldRobotImage}
+        setOldRobotImage={setOldRobotImage}
+        sectionName="robot"
       />
       <Competition
         competate={competate}
         setCompetate={setCompetate}
         competateImage={competateImage}
         setCompetateImage={setCompetateImage}
+        festivalId={festivalId}
+        oldCompetateImage={oldCompetateImage}
+        setOldCompetateImage={setOldCompetateImage}
+        sectionName="competate"
       />
 
       <FestivalCards
@@ -359,6 +398,10 @@ const Hero = () => {
         setRunway={setRunway}
         runwayImage={runwayImage}
         setRunwayImage={setRunwayImage}
+        festivalId={festivalId}
+        oldRunwayImage={oldRunwayImage}
+        setOldRunwayImage={setOldRunwayImage}
+        sectionName="runway"
       />
       <div className="flex justify-end mt-8 mb-8">
         <button

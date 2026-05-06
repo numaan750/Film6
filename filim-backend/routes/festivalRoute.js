@@ -1,63 +1,69 @@
-import express from 'express';
-import upload from '../middlewere/multer.js';
-import { createGetFestival, createFestivalPage, updatedFestival } from '../controllers/festivalController.js';
-import validateFileSize from '../middlewere/validateFileSize.js';
+import express from "express";
+import upload from "../middlewere/multer.js";
+import {
+  createGetFestival,
+  createFestivalPage,
+  updatedFestival,
+  deleteFestivalImage,
+} from "../controllers/festivalController.js";
+import validateFileSize from "../middlewere/validateFileSize.js";
 
 const festivalRoute = express.Router();
 
-festivalRoute.get('/getfestival', createGetFestival);
+festivalRoute.get("/getfestival", createGetFestival);
 festivalRoute.post(
-  '/festivalRoute',
+  "/festivalRoute",
   upload.fields([
     {
-      name: 'heroImage',
+      name: "heroImage",
       maxCount: 1,
     },
-    { name: 'cardImage0', maxCount: 1 },
-    { name: 'cardImage1', maxCount: 1 },
-    { name: 'cardImage2', maxCount: 1 },
-    { name: 'cardImage3', maxCount: 1 },
+    { name: "cardImage0", maxCount: 1 },
+    { name: "cardImage1", maxCount: 1 },
+    { name: "cardImage2", maxCount: 1 },
+    { name: "cardImage3", maxCount: 1 },
     {
-      name: 'advanceImage',
-      maxCount: 1,
-    },
-    {
-      name: 'toplistImage',
+      name: "advanceImage",
       maxCount: 1,
     },
     {
-      name: 'robotImage',
+      name: "toplistImage",
       maxCount: 1,
     },
     {
-      name: 'competateImage',
+      name: "robotImage",
       maxCount: 1,
     },
     {
-      name: 'runwayImage',
+      name: "competateImage",
+      maxCount: 1,
+    },
+    {
+      name: "runwayImage",
       maxCount: 1,
     },
   ]),
-    validateFileSize,
-  createFestivalPage
+  validateFileSize,
+  createFestivalPage,
 );
 
 festivalRoute.put(
-  '/updatefestival/:id',
+  "/updatefestival/:id",
   upload.fields([
-    { name: 'heroImage', maxCount: 1 },
-    { name: 'advanceImage', maxCount: 1 },
-    { name: 'cardImage0', maxCount: 1 },
-    { name: 'cardImage1', maxCount: 1 },
-    { name: 'cardImage2', maxCount: 1 },
-    { name: 'cardImage3', maxCount: 1 },
-    { name: 'toplistImage', maxCount: 1 },
-    { name: 'robotImage', maxCount: 1 },
-    { name: 'competateImage', maxCount: 1 },
-    { name: 'runwayImage', maxCount: 1 },
+    { name: "heroImage", maxCount: 1 },
+    { name: "advanceImage", maxCount: 1 },
+    { name: "cardImage0", maxCount: 1 },
+    { name: "cardImage1", maxCount: 1 },
+    { name: "cardImage2", maxCount: 1 },
+    { name: "cardImage3", maxCount: 1 },
+    { name: "toplistImage", maxCount: 1 },
+    { name: "robotImage", maxCount: 1 },
+    { name: "competateImage", maxCount: 1 },
+    { name: "runwayImage", maxCount: 1 },
   ]),
-    validateFileSize,
-  updatedFestival
+  validateFileSize,
+  updatedFestival,
 );
 
+festivalRoute.delete("/deleteimage/:id", deleteFestivalImage);
 export default festivalRoute;
