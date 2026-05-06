@@ -1,7 +1,5 @@
-// src/utils/fileValidation.js
-
 const IMAGE_MAX_SIZE = 5 * 1024 * 1024;   // 5MB
-const VIDEO_MAX_SIZE = 20 * 1024 * 1024;  // 50MB
+const VIDEO_MAX_SIZE = 20 * 1024 * 1024;  // 20MB
 
 export const validateFile = (file) => {
   if (!file) return { valid: false, message: 'Koi file select nahi ki' };
@@ -10,11 +8,11 @@ export const validateFile = (file) => {
   const isVideo = file.type.startsWith('video/');
 
   if (isImage && file.size > IMAGE_MAX_SIZE) {
-    return { valid: false, message: '“Image should not exceed 5 MB.”' };
+    return { valid: false, message: 'Image should not exceed 5 MB.' };
   }
 
   if (isVideo && file.size > VIDEO_MAX_SIZE) {
-    return { valid: false, message: 'Video should not exceed 50 MB.' };
+    return { valid: false, message: 'Video should not exceed 20 MB.' };
   }
 
   return { valid: true, message: '' };

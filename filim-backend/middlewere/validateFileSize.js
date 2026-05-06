@@ -18,14 +18,14 @@ const validateFileSize = (req, res, next) => {
     if (isImage && file.size > IMAGE_MAX_SIZE) {
       return res.status(400).json({
         success: false,
-        message: `"${file.fieldname}" image 5MB se zyada nahi honi chahiye`,
+        message: `"${file.fieldname}" image 5MB Should not exceed this.`,
       });
     }
 
     if (isVideo && file.size > VIDEO_MAX_SIZE) {
       return res.status(400).json({
         success: false,
-        message: `"${file.fieldname}" video 50MB se zyada nahi honi chahiye`,
+        message: `"${file.fieldname}" video 20MB Should not exceed this.`,
       });
     }
   }
